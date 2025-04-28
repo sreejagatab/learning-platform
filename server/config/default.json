@@ -1,0 +1,5 @@
+{
+  "corsOrigin": "*",
+  "port": 5000,
+  "sonarApiKey": "dummy-key"
+}

@@ -1,0 +1,180 @@
+2025-04-28 23:43:50 [ERROR]: uncaughtException: Configuration property "corsOrigin" is not defined
+Error: Configuration property "corsOrigin" is not defined
+    at Config.get (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\config\lib\config.js:181:11)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:22:18)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+2025-04-28 23:45:41 [ERROR]: uncaughtException: Configuration property "corsOrigin" is not defined
+Error: Configuration property "corsOrigin" is not defined
+    at Config.get (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\config\lib\config.js:181:11)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:22:18)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+2025-04-28 23:47:19 [ERROR]: uncaughtException: Configuration property "sonarApiKey" is not defined
+Error: Configuration property "sonarApiKey" is not defined
+    at Config.get (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\config\lib\config.js:181:11)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\services\perplexity.service.js:10:59)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+2025-04-28 23:47:33 [ERROR]: uncaughtException: Configuration property "sonarApiKey" is not defined
+Error: Configuration property "sonarApiKey" is not defined
+    at Config.get (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\config\lib\config.js:181:11)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\services\perplexity.service.js:10:59)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+2025-04-28 23:48:42 [ERROR]: uncaughtException: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:41:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-28 23:48:54 [ERROR]: uncaughtException: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:41:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-28 23:49:02 [ERROR]: uncaughtException: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:41:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-28 23:49:14 [ERROR]: uncaughtException: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module './routes/user.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:41:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-28 23:50:12 [ERROR]: uncaughtException: Router.use() requires a middleware function but got a Object
+TypeError: Router.use() requires a middleware function but got a Object
+    at Function.use (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\router\index.js:469:13)
+    at Function.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:227:21)
+    at Array.forEach (<anonymous>)
+    at Function.use (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:224:7)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:41:5)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-28 23:50:17 [ERROR]: uncaughtException: Cannot find module './routes/history.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module './routes/history.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:42:25)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-28 23:51:40 [ERROR]: uncaughtException: Cannot find module './routes/history.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module './routes/history.routes'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:42:25)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-28 23:52:11 [ERROR]: uncaughtException: Router.use() requires a middleware function but got a Object
+TypeError: Router.use() requires a middleware function but got a Object
+    at Function.use (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\router\index.js:469:13)
+    at Function.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:227:21)
+    at Array.forEach (<anonymous>)
+    at Function.use (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:224:7)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js:42:5)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
