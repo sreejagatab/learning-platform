@@ -1,0 +1,28 @@
+graph TD
+    User[User] --> Frontend[React Frontend]
+    Frontend --> API[Express API Backend]
+    API --> Auth[Authentication Service]
+    API --> SonarAPI[Perplexity Sonar API]
+    API --> Database[(MongoDB Database)]
+    
+    subgraph "Frontend Components"
+        Frontend --> Dashboard[Dashboard]
+        Frontend --> Search[Search Interface]
+        Frontend --> LearningPath[Learning Path]
+        Frontend --> History[History Tracker]
+        Frontend --> UserProfile[User Profile]
+        Frontend --> Notes[Notes & Bookmarks]
+    end
+    
+    subgraph "Backend Services"
+        API --> QueryHandler[Query Handler]
+        API --> ResponseProcessor[Response Processor]
+        API --> FollowupGenerator[Followup Generator]
+        API --> ProgressTracker[Progress Tracker]
+        API --> RecommendationEngine[Recommendation Engine]
+    end
+    
+    Database --> UserData[User Data]
+    Database --> LearningHistory[Learning History]
+    Database --> SavedContent[Saved Content]
+    Database --> Preferences[User Preferences]

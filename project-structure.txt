@@ -1,0 +1,71 @@
+learnsphere/                      # Root project directory
+│
+├── client/                       # Frontend React application
+│   ├── public/                   # Public assets
+│   │   ├── index.html
+│   │   ├── favicon.ico
+│   │   └── assets/               # Images, fonts, etc.
+│   ├── src/
+│   │   ├── components/           # Reusable React components
+│   │   │   ├── common/           # Shared UI components
+│   │   │   ├── dashboard/        # Dashboard components
+│   │   │   ├── learning/         # Learning path components
+│   │   │   ├── search/           # Search interface components
+│   │   │   ├── history/          # Learning history components
+│   │   │   ├── profile/          # User profile components
+│   │   │   └── notes/            # Notes & bookmarks components
+│   │   ├── pages/                # Page components
+│   │   ├── hooks/                # Custom React hooks
+│   │   ├── context/              # React context providers
+│   │   ├── services/             # API service integrations
+│   │   ├── utils/                # Utility functions
+│   │   ├── styles/               # Global styles and themes
+│   │   ├── App.js                # Root App component
+│   │   └── index.js              # React entry point
+│   ├── package.json
+│   └── README.md
+│
+├── server/                       # Backend Node.js/Express application
+│   ├── config/                   # Configuration files
+│   │   ├── default.js            # Default configuration
+│   │   ├── development.js        # Development environment config
+│   │   └── production.js         # Production environment config
+│   ├── controllers/              # Request handlers
+│   │   ├── auth.controller.js    # Authentication controller
+│   │   ├── learning.controller.js # Learning content controller
+│   │   ├── user.controller.js    # User profile controller
+│   │   └── history.controller.js # Learning history controller
+│   ├── models/                   # MongoDB schemas
+│   │   ├── user.model.js         # User model
+│   │   ├── session.model.js      # Learning session model
+│   │   ├── history.model.js      # Learning history model
+│   │   └── content.model.js      # Saved content model
+│   ├── routes/                   # API routes
+│   │   ├── auth.routes.js        # Authentication routes
+│   │   ├── learning.routes.js    # Learning content routes
+│   │   ├── user.routes.js        # User profile routes
+│   │   └── history.routes.js     # Learning history routes
+│   ├── services/                 # Business logic services
+│   │   ├── perplexity.service.js # Perplexity Sonar API integration
+│   │   ├── auth.service.js       # Authentication service
+│   │   ├── learning.service.js   # Learning content service
+│   │   └── recommendation.service.js # Recommendation engine
+│   ├── middleware/               # Express middleware
+│   │   ├── auth.middleware.js    # Authentication middleware
+│   │   ├── error.middleware.js   # Error handling middleware
+│   │   └── logger.middleware.js  # Request logging middleware
+│   ├── utils/                    # Utility functions
+│   │   ├── logger.js             # Logging utility
+│   │   ├── validator.js          # Input validation
+│   │   └── helpers.js            # Helper functions
+│   ├── app.js                    # Express application setup
+│   ├── server.js                 # Server entry point
+│   ├── package.json
+│   └── README.md
+│
+├── .gitignore                    # Git ignore file
+├── docker-compose.yml            # Docker Compose configuration
+├── Dockerfile.client             # Frontend Docker configuration
+├── Dockerfile.server             # Backend Docker configuration
+├── package.json                  # Root package.json for scripts
+└── README.md                     # Project documentation
