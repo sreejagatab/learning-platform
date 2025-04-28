@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # MongoDB service
+  mongo:
+    image: mongo:latest
+    container_name: learnsphere-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - learnsphere-network
+
+  # Backend API service
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: learnsphere-server
+    restart: always
+    ports:
+      - "${SERVER_PORT:-5000}:5000"
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=5000
+      - MONGO_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/learnsphere?authSource=admin
+      - JWT_SECRET=${JWT_SECRET}
+      - SONAR_API_KEY=${SONAR_API_KEY}
+      - PERPLEXITY_API_URL=${PERPLEXITY_API_URL:-https://api.perplexity.ai}
+    volumes:
+      - ./server/logs:/app/logs
+    networks:
+      - learnsphere-network
+
+  # Frontend client service
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: learnsphere-client
+    restart: always
+    ports:
+      - "${CLIENT_PORT:-80}:80"
+    depends_on:
+      - server
+    networks:
+      - learnsphere-network
+
+networks:
+  learnsphere-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
