@@ -1,5 +1,6 @@
 /**
  * Authentication controller for user management
+ * In development mode, can work without MongoDB connection
  */
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -7,6 +8,24 @@ const bcrypt = require('bcryptjs');
 const config = require('config');
 const User = require('../models/user.model');
 const logger = require('../utils/logger');
+
+// Check if we're in development mode without MongoDB
+const USE_MOCK_DB = process.env.NODE_ENV === 'development' &&
+                    (!process.env.MONGO_URI || process.env.MONGO_URI === 'mongodb://localhost:27017/learnsphere');
+
+// Import mock user service if in development mode
+let mockUserService;
+if (USE_MOCK_DB) {
+  try {
+    mockUserService = require('../mock/users');
+    logger.info('Using mock user service for authentication');
+    logger.info('Demo accounts available:');
+    logger.info('- Admin: admin@learnsphere.dev / admin123');
+    logger.info('- User: user@learnsphere.dev / demo123');
+  } catch (error) {
+    logger.error(`Failed to load mock user service: ${error.message}`);
+  }
+}
 
 /**
  * Register a new user
@@ -68,25 +87,61 @@ exports.login = async (req, res) => {
 
   const { email, password } = req.body;
 
+  // Debug logging
+  console.log('Login attempt with:', { email, password });
+
   try {
-    // Check if user exists
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    let user;
+    let token;
+    let isMatch = false;
+
+    if (USE_MOCK_DB && mockUserService) {
+      // Use mock user service in development mode
+      user = mockUserService.findUserByEmail(email);
+
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Check if password matches
+      isMatch = await mockUserService.verifyPassword(password, user.password);
+
+      // Debug logging
+      console.log('Password verification result:', isMatch);
+
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Update last active timestamp
+      user.lastActive = new Date();
+
+      // Generate JWT token
+      token = mockUserService.generateToken(user);
+
+      logger.info(`Mock user logged in: ${user.email} (${user.role})`);
+    } else {
+      // Use MongoDB in production
+      user = await User.findOne({ email }).select('+password');
+
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Check if password matches
+      isMatch = await user.matchPassword(password);
+
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+
+      // Update last active timestamp
+      user.lastActive = Date.now();
+      await user.save();
+
+      // Generate JWT token
+      token = user.getSignedJwtToken();
     }
-
-    // Check if password matches
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-
-    // Update last active timestamp
-    user.lastActive = Date.now();
-    await user.save();
-
-    // Generate JWT token
-    const token = user.getSignedJwtToken();
 
     // Return token
     res.json({
@@ -113,11 +168,28 @@ exports.login = async (req, res) => {
  */
 exports.getMe = async (req, res) => {
   try {
-    // Get user without password
-    const user = await User.findById(req.user.id).select('-password');
-    
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    let user;
+
+    if (USE_MOCK_DB && mockUserService) {
+      // Use mock user service in development mode
+      user = mockUserService.findUserById(req.user.id);
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Remove password from response
+      const { password, ...userWithoutPassword } = user;
+      user = userWithoutPassword;
+
+      logger.info(`Mock user profile retrieved: ${user.email}`);
+    } else {
+      // Use MongoDB in production
+      user = await User.findById(req.user.id).select('-password');
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
     }
 
     res.json(user);

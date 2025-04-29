@@ -15,8 +15,10 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  ListItemButton,
   CircularProgress,
   Chip,
+  Alert,
 } from '@mui/material';
 import {
   School as SchoolIcon,
@@ -25,21 +27,35 @@ import {
   TrendingUp as TrendingIcon,
   Psychology as PsychologyIcon,
   Route as RouteIcon,
+  Refresh as RefreshIcon,
+  Add as AddIcon,
+  Insights as InsightsIcon,
+  Visibility as VisibilityIcon,
 } from '@mui/icons-material';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 import AuthContext from '../context/AuthContext';
 import LearningContext from '../context/LearningContext';
+import GamificationContext from '../context/GamificationContext';
+import AnalyticsContext from '../context/AnalyticsContext';
+import { GamificationSummary } from '../components/gamification';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
-  const { 
-    getUserContent, 
+  const {
+    getUserContent,
     getLearningHistory,
     contentLoading,
     historyLoading,
   } = useContext(LearningContext);
-  
+  const { recordActivity } = useContext(GamificationContext);
+  const {
+    trackPageView,
+    recommendations,
+    fetchRecommendations,
+    getRecommendationsByType
+  } = useContext(AnalyticsContext);
+
   const [recentContent, setRecentContent] = useState([]);
   const [recentHistory, setRecentHistory] = useState([]);
   const [learningStats, setLearningStats] = useState({
@@ -49,84 +65,144 @@ const Dashboard = () => {
     topTopics: []
   });
   const [loading, setLoading] = useState(true);
-  
+  const [error, setError] = useState(null);
+  const [dataFetched, setDataFetched] = useState(false);
+
   // Colors for charts
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A569BD'];
-  
+
   useEffect(() => {
+    // Only fetch data once when the component mounts
+    const controller = new AbortController();
+    let isMounted = true;
+
     const fetchDashboardData = async () => {
-      setLoading(true);
-      
-      try {
-        // Get recent content (notes, paths, etc.)
-        const contentData = await getUserContent(null, 1, 5);
-        setRecentContent(contentData.content || []);
-        
-        // Get recent history
-        const historyData = await getLearningHistory(1, 5);
-        setRecentHistory(historyData.history || []);
-        
-        // Calculate learning stats
-        const stats = {
-          totalSessions: historyData.pagination?.total || 0,
-          totalQuestions: calculateTotalQuestions(historyData.history || []),
-          savedContent: contentData.pagination?.total || 0,
-          topTopics: extractTopTopics(historyData.history || [])
-        };
-        
-        setLearningStats(stats);
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setLoading(false);
+      // Only fetch if data hasn't been fetched yet or if there was an error
+      if (!dataFetched || error) {
+        setLoading(true);
+        setError(null);
+
+        try {
+          // Get recent content (notes, paths, etc.)
+          const contentData = await getUserContent(null, 1, 5);
+
+          // Only update state if component is still mounted
+          if (isMounted) {
+            setRecentContent(contentData.content || []);
+
+            // Get recent history
+            const historyData = await getLearningHistory(1, 5);
+
+            if (isMounted) {
+              setRecentHistory(historyData.history || []);
+
+              // Calculate learning stats
+              const stats = {
+                totalSessions: historyData.pagination?.total || 0,
+                totalQuestions: calculateTotalQuestions(historyData.history || []),
+                savedContent: contentData.pagination?.total || 0,
+                topTopics: extractTopTopics(historyData.history || [])
+              };
+
+              setLearningStats(stats);
+              setDataFetched(true);
+
+              // Record dashboard visit for gamification
+              recordActivity('dashboard_visit', 0, { source: 'dashboard' });
+
+              // Track page view for analytics
+              trackPageView('dashboard');
+
+              // Fetch recommendations
+              fetchRecommendations();
+            }
+          }
+        } catch (err) {
+          // Ignore aborted requests
+          if (err.name === 'AbortError') {
+            console.log('Request was aborted');
+            return;
+          }
+
+          console.error('Error fetching dashboard data:', err);
+          if (isMounted) {
+            setError('Failed to load dashboard data. Please try again.');
+          }
+        } finally {
+          if (isMounted) {
+            setLoading(false);
+          }
+        }
       }
     };
-    
+
+    // Execute the fetch function once
     fetchDashboardData();
-  }, [getUserContent, getLearningHistory]);
-  
+
+    // Cleanup function to prevent state updates after unmount
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  // Add a separate effect to handle retries when error state changes
+  useEffect(() => {
+    if (error) {
+      // This effect will run when the error state changes
+      console.log('Error state changed, ready for retry');
+    }
+  }, [error]);
+
+  // Function to manually refresh data
+  const handleRefresh = () => {
+    setDataFetched(false); // This will trigger the useEffect to run again
+  };
+
   // Calculate total questions (main + follow-ups)
   const calculateTotalQuestions = (history) => {
     return history.reduce((total, item) => {
       return total + 1 + (item.followUps?.length || 0);
     }, 0);
   };
-  
+
   // Extract top topics from history
   const extractTopTopics = (history) => {
     const topicMap = {};
-    
+
     // Extract topics from queries
     history.forEach(item => {
       const query = item.query.toLowerCase();
       const words = query.split(' ');
-      
+
       // Simple topic extraction - use first few words or known subjects
       let topic = '';
-      
+
       if (query.includes('what is') || query.includes('explain')) {
-        const index = query.includes('what is') 
-          ? query.indexOf('what is') + 8 
+        const index = query.includes('what is')
+          ? query.indexOf('what is') + 8
           : query.indexOf('explain') + 8;
-        
+
         topic = query.substring(index).split(' ').slice(0, 3).join(' ');
       } else {
         topic = words.slice(0, Math.min(3, words.length)).join(' ');
       }
-      
+
       // Count occurrences
       topicMap[topic] = (topicMap[topic] || 0) + 1;
     });
-    
+
     // Convert to array and sort
     const topTopics = Object.entries(topicMap)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value)
       .slice(0, 5);
-    
+
     return topTopics;
   };
-  
+
   // Format date for display
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -136,7 +212,7 @@ const Dashboard = () => {
       year: 'numeric'
     }).format(date);
   };
-  
+
   if (loading || contentLoading || historyLoading) {
     return (
       <Box
@@ -151,13 +227,57 @@ const Dashboard = () => {
       </Box>
     );
   }
-  
+
+  if (error) {
+    return (
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Alert
+          severity="error"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              startIcon={<RefreshIcon />}
+              onClick={handleRefresh}
+            >
+              Retry
+            </Button>
+          }
+          sx={{ mb: 3 }}
+        >
+          {error}
+        </Alert>
+
+        <Typography variant="h4" component="h1" gutterBottom>
+          {user?.name}'s Learning Dashboard
+        </Typography>
+
+        <Paper sx={{ p: 3, textAlign: 'center' }}>
+          <Typography variant="body1">
+            We're having trouble loading your dashboard data.
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<RefreshIcon />}
+            onClick={handleRefresh}
+            sx={{ mt: 2 }}
+          >
+            Refresh Dashboard
+          </Button>
+        </Paper>
+      </Container>
+    );
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         {user?.name}'s Learning Dashboard
       </Typography>
-      
+
+      {/* Gamification Summary */}
+      <GamificationSummary />
+
       {/* Stats overview */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
@@ -179,7 +299,7 @@ const Dashboard = () => {
             </Typography>
           </Paper>
         </Grid>
-        
+
         <Grid item xs={12} sm={6} md={3}>
           <Paper
             sx={{
@@ -199,7 +319,7 @@ const Dashboard = () => {
             </Typography>
           </Paper>
         </Grid>
-        
+
         <Grid item xs={12} sm={6} md={3}>
           <Paper
             sx={{
@@ -219,7 +339,7 @@ const Dashboard = () => {
             </Typography>
           </Paper>
         </Grid>
-        
+
         <Grid item xs={12} sm={6} md={3}>
           <Paper
             sx={{
@@ -241,7 +361,7 @@ const Dashboard = () => {
             >
               Start Learning
             </Button>
-            
+
             <Button
               variant="outlined"
               color="secondary"
@@ -254,7 +374,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-      
+
       {/* Main dashboard content */}
       <Grid container spacing={3}>
         {/* Left column */}
@@ -265,7 +385,7 @@ const Dashboard = () => {
               Recent Learning Activity
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            
+
             {recentHistory.length > 0 ? (
               <List>
                 {recentHistory.map((item, index) => (
@@ -299,14 +419,14 @@ const Dashboard = () => {
               </Box>
             )}
           </Paper>
-          
+
           {/* Saved content */}
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom component="div">
               Your Learning Materials
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            
+
             {recentContent.length > 0 ? (
               <Grid container spacing={2}>
                 {recentContent.map((content, index) => (
@@ -314,8 +434,8 @@ const Dashboard = () => {
                     <Card variant="outlined">
                       <CardContent sx={{ pb: 1 }}>
                         <Box sx={{ display: 'flex', mb: 1 }}>
-                          <Chip 
-                            size="small" 
+                          <Chip
+                            size="small"
                             label={content.type.replace('_', ' ')}
                             color={content.type === 'learning_path' ? 'secondary' : 'primary'}
                           />
@@ -328,8 +448,8 @@ const Dashboard = () => {
                         </Typography>
                       </CardContent>
                       <CardActions>
-                        <Button 
-                          size="small" 
+                        <Button
+                          size="small"
                           component={RouterLink}
                           to={`/content/${content._id}`}
                         >
@@ -357,7 +477,7 @@ const Dashboard = () => {
             )}
           </Paper>
         </Grid>
-        
+
         {/* Right column */}
         <Grid item xs={12} md={4}>
           {/* Topics chart */}
@@ -366,7 +486,7 @@ const Dashboard = () => {
               Top Learning Topics
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            
+
             {learningStats.topTopics.length > 0 ? (
               <Box sx={{ height: 300 }}>
                 <ResponsiveContainer width="100%" height="100%">
@@ -398,14 +518,68 @@ const Dashboard = () => {
               </Box>
             )}
           </Paper>
-          
+
+          {/* Recommendations */}
+          <Paper sx={{ p: 2, mb: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              Recommended for You
+            </Typography>
+            <Divider sx={{ mb: 2 }} />
+
+            {getRecommendationsByType('content', 3).length > 0 ? (
+              <List dense>
+                {getRecommendationsByType('content', 3).map((rec, index) => (
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton component={RouterLink} to={`/content/${rec.item}`}>
+                      <ListItemIcon>
+                        <VisibilityIcon color="primary" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={rec.content?.title || `Recommended Content ${index + 1}`}
+                        secondary={rec.reason}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+
+                <Divider sx={{ my: 1 }} />
+
+                <ListItem disablePadding>
+                  <ListItemButton component={RouterLink} to="/analytics">
+                    <ListItemIcon>
+                      <InsightsIcon color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="View All Recommendations"
+                      secondary="See personalized insights and more recommendations"
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            ) : (
+              <Box sx={{ textAlign: 'center', py: 2 }}>
+                <Typography color="text.secondary">
+                  Continue learning to get personalized recommendations
+                </Typography>
+                <Button
+                  variant="contained"
+                  component={RouterLink}
+                  to="/analytics"
+                  sx={{ mt: 2 }}
+                >
+                  View Analytics
+                </Button>
+              </Box>
+            )}
+          </Paper>
+
           {/* Quick actions */}
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom>
               Quick Actions
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            
+
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Button
                 variant="outlined"
@@ -416,7 +590,17 @@ const Dashboard = () => {
               >
                 Create Learning Path
               </Button>
-              
+
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                component={RouterLink}
+                to="/content/create"
+                fullWidth
+              >
+                Create New Content
+              </Button>
+
               <Button
                 variant="outlined"
                 startIcon={<BookmarkIcon />}
@@ -426,15 +610,15 @@ const Dashboard = () => {
               >
                 Browse Saved Content
               </Button>
-              
+
               <Button
                 variant="outlined"
-                startIcon={<TrendingIcon />}
+                startIcon={<InsightsIcon />}
                 component={RouterLink}
-                to="/profile"
+                to="/analytics"
                 fullWidth
               >
-                Update Learning Preferences
+                View Learning Analytics
               </Button>
             </Box>
           </Paper>

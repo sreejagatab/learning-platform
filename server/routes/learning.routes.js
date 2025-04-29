@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const router = express.Router();
 const auth = require('../middleware/auth.middleware');
 const learningController = require('../controllers/learning.controller');
+const contentController = require('../controllers/content.controller');
 
 /**
  * @route   POST /api/learning/query
@@ -76,13 +77,54 @@ router.post(
  * @desc    Get user's saved content
  * @access  Private
  */
-router.get('/content', auth, learningController.getUserContent);
+router.get('/content', auth, contentController.getUserContent);
 
 /**
  * @route   GET /api/learning/content/:id
  * @desc    Get content by ID
  * @access  Private
  */
-router.get('/content/:id', auth, learningController.getContentById);
+router.get('/content/:id', auth, contentController.getContentById);
+
+/**
+ * @route   POST /api/learning/content
+ * @desc    Create new content
+ * @access  Private
+ */
+router.post(
+  '/content',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('content', 'Content is required').not().isEmpty()
+    ]
+  ],
+  contentController.createContent
+);
+
+/**
+ * @route   PUT /api/learning/content/:id
+ * @desc    Update content
+ * @access  Private
+ */
+router.put(
+  '/content/:id',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('content', 'Content is required').not().isEmpty()
+    ]
+  ],
+  contentController.updateContent
+);
+
+/**
+ * @route   DELETE /api/learning/content/:id
+ * @desc    Delete content
+ * @access  Private
+ */
+router.delete('/content/:id', auth, contentController.deleteContent);
 
 module.exports = router;

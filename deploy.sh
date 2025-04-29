@@ -24,11 +24,8 @@ fi
 mkdir -p server/logs
 mkdir -p nginx
 
-# Pull latest changes if in a git repository
-if [ -d .git ]; then
-    echo "Pulling latest changes..."
-    git pull
-fi
+# Skip git pull for now
+echo "Skipping git pull..."
 
 # Build and start containers
 echo "Building and starting containers..."

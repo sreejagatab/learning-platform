@@ -10,8 +10,6 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  ListItemSecondaryAction,
-  IconButton,
   TextField,
   InputAdornment,
   Button,
@@ -28,7 +26,6 @@ import {
 import {
   History as HistoryIcon,
   Search as SearchIcon,
-  Delete as DeleteIcon,
   ExpandMore as ExpandMoreIcon,
   Psychology as PsychologyIcon,
   BookmarkAdd as BookmarkIcon,
@@ -40,16 +37,16 @@ import LearningContext from '../context/LearningContext';
 
 const History = () => {
   const { getLearningHistory, saveContent, historyLoading } = useContext(LearningContext);
-  
+
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [expandedItem, setExpandedItem] = useState(null);
-  
+
   const itemsPerPage = 10;
-  
+
   // Load history data
   useEffect(() => {
     const fetchHistory = async () => {
@@ -65,21 +62,21 @@ const History = () => {
         setLoading(false);
       }
     };
-    
+
     fetchHistory();
   }, [getLearningHistory, page, searchQuery]);
-  
+
   // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
     setPage(1); // Reset to first page when searching
   };
-  
+
   // Handle pagination
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-  
+
   // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -91,26 +88,26 @@ const History = () => {
       minute: 'numeric',
     }).format(date);
   };
-  
+
   // Save content to notes
   const handleSaveToNotes = async (item) => {
     try {
-      const title = item.query.length > 50 
-        ? `${item.query.substring(0, 50)}...` 
+      const title = item.query.length > 50
+        ? `${item.query.substring(0, 50)}...`
         : item.query;
-      
+
       const content = `# ${item.query}\n\n${item.response}\n\n## Follow-up Questions\n${
         item.followUps && item.followUps.length > 0
           ? item.followUps.map(fu => `- ${fu.query}\n  ${fu.response}`).join('\n\n')
           : 'No follow-up questions'
       }`;
-      
+
       const metadata = {
         originalQuery: item.query,
         queryTimestamp: item.queryTimestamp,
         citations: item.citations || [],
       };
-      
+
       await saveContent(title, content, 'note', metadata);
       toast.success('Saved to your notes');
     } catch (error) {
@@ -118,12 +115,12 @@ const History = () => {
       toast.error('Failed to save to notes');
     }
   };
-  
+
   // Toggle expanded item
   const handleToggleExpand = (itemId) => {
     setExpandedItem(expandedItem === itemId ? null : itemId);
   };
-  
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
@@ -132,7 +129,7 @@ const History = () => {
       <Typography variant="body1" paragraph>
         Review your past learning sessions and questions
       </Typography>
-      
+
       {/* Search and filters */}
       <Paper sx={{ p: 2, mb: 3 }}>
         <Box component="form" onSubmit={handleSearch} sx={{ display: 'flex', gap: 2 }}>
@@ -149,16 +146,16 @@ const History = () => {
               ),
             }}
           />
-          <Button 
-            type="submit" 
-            variant="contained" 
+          <Button
+            type="submit"
+            variant="contained"
             disabled={loading}
           >
             Search
           </Button>
         </Box>
       </Paper>
-      
+
       {/* History list */}
       {loading || historyLoading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -171,13 +168,13 @@ const History = () => {
             No learning history found
           </Typography>
           <Typography variant="body1" color="text.secondary" paragraph>
-            {searchQuery 
+            {searchQuery
               ? `No results found for "${searchQuery}"`
               : "You haven't asked any questions yet"}
           </Typography>
-          <Button 
-            variant="contained" 
-            component={RouterLink} 
+          <Button
+            variant="contained"
+            component={RouterLink}
             to="/learn"
             startIcon={<PsychologyIcon />}
           >
@@ -189,7 +186,7 @@ const History = () => {
           <List component={Paper}>
             {history.map((item) => (
               <React.Fragment key={item._id}>
-                <Accordion 
+                <Accordion
                   expanded={expandedItem === item._id}
                   onChange={() => handleToggleExpand(item._id)}
                 >
@@ -209,7 +206,7 @@ const History = () => {
                       <Typography variant="body1" paragraph>
                         {item.response}
                       </Typography>
-                      
+
                       {/* Follow-up questions */}
                       {item.followUps && item.followUps.length > 0 && (
                         <Box sx={{ mt: 2 }}>
@@ -225,8 +222,8 @@ const History = () => {
                                       {followUp.query}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                      {followUp.response.length > 200 
-                                        ? `${followUp.response.substring(0, 200)}...` 
+                                      {followUp.response.length > 200
+                                        ? `${followUp.response.substring(0, 200)}...`
                                         : followUp.response}
                                     </Typography>
                                   </CardContent>
@@ -236,7 +233,7 @@ const History = () => {
                           </Grid>
                         </Box>
                       )}
-                      
+
                       {/* Citations */}
                       {item.citations && item.citations.length > 0 && (
                         <Box sx={{ mt: 2 }}>
@@ -259,7 +256,7 @@ const History = () => {
                           </Box>
                         </Box>
                       )}
-                      
+
                       {/* Actions */}
                       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                         <Button
@@ -284,7 +281,7 @@ const History = () => {
               </React.Fragment>
             ))}
           </List>
-          
+
           {/* Pagination */}
           {totalPages > 1 && (
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>

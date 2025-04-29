@@ -7,6 +7,7 @@ const config = require('config');
 const path = require('path');
 const logger = require('./utils/logger');
 const errorMiddleware = require('./middleware/error.middleware');
+const { cacheMiddleware } = require('./middleware/cache.middleware');
 
 // Create Express app
 const app = express();
@@ -14,7 +15,27 @@ const app = express();
 // Apply middleware
 app.use(helmet()); // Security headers
 app.use(compression()); // Compress responses
-app.use(express.json({ limit: '10mb' })); // Parse JSON bodies
+
+// Capture raw request body for debugging JSON parsing errors
+app.use((req, res, next) => {
+  let rawBody = '';
+  req.on('data', chunk => {
+    rawBody += chunk.toString();
+  });
+  req.on('end', () => {
+    req.rawBody = rawBody;
+    next();
+  });
+});
+
+// Parse JSON bodies with improved error handling
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buf) => {
+    req.rawBody = buf.toString();
+  }
+}));
+
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Parse URL-encoded bodies
 
 // CORS configuration
@@ -35,11 +56,30 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API routes
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/learning', require('./routes/learning.routes'));
-app.use('/api/users', require('./routes/user.routes'));
-app.use('/api/history', require('./routes/history.routes'));
+// Cache middleware configuration
+const contentCacheConfig = {
+  ttl: 300, // 5 minutes cache for content
+  methods: ['GET']
+};
+
+const userCacheConfig = {
+  ttl: 60, // 1 minute cache for user data
+  methods: ['GET']
+};
+
+// API routes with cache middleware where appropriate
+app.use('/api/auth', require('./routes/auth.routes')); // No cache for auth routes
+app.use('/api/learning', cacheMiddleware(contentCacheConfig), require('./routes/learning.routes'));
+app.use('/api/users', cacheMiddleware(userCacheConfig), require('./routes/user.routes'));
+app.use('/api/history', cacheMiddleware(contentCacheConfig), require('./routes/history.routes'));
+app.use('/api/gamification', require('./routes/gamification.routes')); // No cache for gamification routes
+app.use('/api/analytics', require('./routes/analytics.routes')); // No cache for analytics routes
+
+// Cache stats endpoint (admin only)
+app.get('/api/admin/cache-stats', (req, res) => {
+  const { getCacheStats } = require('./middleware/cache.middleware');
+  res.json(getCacheStats());
+});
 
 // Error handling middleware
 app.use(errorMiddleware);
@@ -48,7 +88,7 @@ app.use(errorMiddleware);
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static(path.join(__dirname, '../client/build')));
-  
+
   // Any route not matched by API will serve the React app
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));

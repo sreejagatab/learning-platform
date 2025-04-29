@@ -1,0 +1,35 @@
+/* ContentCreation page styles */
+.MuiBreadcrumbs-root a {
+  text-decoration: none;
+}
+
+.MuiBreadcrumbs-root a:hover {
+  text-decoration: underline;
+}
+
+/* Custom scrollbar for the editor */
+.ql-editor::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ql-editor::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.ql-editor::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.ql-editor::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .MuiContainer-root {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

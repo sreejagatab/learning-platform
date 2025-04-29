@@ -12,7 +12,6 @@ import {
   Avatar,
   Button,
   Tooltip,
-  Link,
   Drawer,
   List,
   ListItem,
@@ -30,47 +29,54 @@ import {
   Dashboard as DashboardIcon,
   Login as LoginIcon,
   PersonAdd as RegisterIcon,
+  EmojiEvents,
+  Insights as InsightsIcon,
 } from '@mui/icons-material';
 
 import AuthContext from '../../context/AuthContext';
+import GamificationContext from '../../context/GamificationContext';
+import { PointsBadge, LevelBadge, StreakCounter } from '../../components/gamification';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useContext(AuthContext);
+  const { loading: gamificationLoading } = useContext(GamificationContext);
   const navigate = useNavigate();
-  
+
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-  
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
+
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
     setDrawerOpen(open);
   };
-  
+
   const handleLogout = () => {
     handleCloseUserMenu();
     logout();
     navigate('/');
   };
-  
+
   const navItems = [
     { title: 'Home', path: '/', icon: <SchoolIcon />, requiresAuth: false },
     { title: 'Dashboard', path: '/dashboard', icon: <DashboardIcon />, requiresAuth: true },
     { title: 'Learn', path: '/learn', icon: <PsychologyIcon />, requiresAuth: true },
     { title: 'History', path: '/history', icon: <HistoryIcon />, requiresAuth: true },
+    { title: 'Achievements', path: '/gamification', icon: <EmojiEvents />, requiresAuth: true },
+    { title: 'Analytics', path: '/analytics', icon: <InsightsIcon />, requiresAuth: true },
   ];
-  
+
   const filteredNavItems = navItems.filter(item => !item.requiresAuth || isAuthenticated);
-  
+
   const drawerList = (
     <Box
       sx={{ width: 250 }}
@@ -114,7 +120,7 @@ const Navbar = () => {
       </List>
     </Box>
   );
-  
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -139,7 +145,7 @@ const Navbar = () => {
               {drawerList}
             </Drawer>
           </Box>
-          
+
           {/* Logo */}
           <SchoolIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -160,7 +166,7 @@ const Navbar = () => {
           >
             LearnSphere
           </Typography>
-          
+
           {/* Desktop navigation */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {filteredNavItems.map((item) => (
@@ -174,14 +180,23 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-          
+
+          {/* Gamification elements */}
+          {isAuthenticated && !gamificationLoading && (
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', mr: 2, gap: 1 }}>
+              <PointsBadge size="small" />
+              <LevelBadge size="small" />
+              <StreakCounter size="small" />
+            </Box>
+          )}
+
           {/* User menu */}
           <Box sx={{ flexGrow: 0 }}>
             {isAuthenticated ? (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt={user?.name || 'User'} src="/static/images/avatar/default.jpg" />
+                    <Avatar alt={user?.name || 'User'} src={`/avatars/avatar${Math.floor(Math.random() * 5) + 1}.png`} />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -210,18 +225,18 @@ const Navbar = () => {
               </>
             ) : (
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                <Button 
-                  color="inherit" 
-                  component={RouterLink} 
+                <Button
+                  color="inherit"
+                  component={RouterLink}
                   to="/login"
                   sx={{ mx: 1 }}
                 >
                   Login
                 </Button>
-                <Button 
-                  variant="outlined" 
-                  color="inherit" 
-                  component={RouterLink} 
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  component={RouterLink}
                   to="/register"
                   sx={{ mx: 1 }}
                 >

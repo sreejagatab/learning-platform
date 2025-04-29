@@ -1,0 +1,19 @@
+{
+  "name": "learning-platform",
+  "version": "1.0.0",
+  "description": "A personalized learning platform",
+  "scripts": {
+    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\"",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\"",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install && cd ../e2e && npm install",
+    "test": "node -e \"const { execSync } = require('child_process'); try { console.log('Running server tests...'); execSync('cd server && npm test', {stdio: 'inherit'}); console.log('Running client tests...'); execSync('cd client && npm test -- --watchAll=false', {stdio: 'inherit'}); } catch (e) { process.exit(1); }\"",
+    "test:coverage": "node -e \"const { execSync } = require('child_process'); try { console.log('Running server tests with coverage...'); execSync('cd server && npm test -- --coverage', {stdio: 'inherit'}); console.log('Running client tests with coverage...'); execSync('cd client && npm test -- --coverage --watchAll=false', {stdio: 'inherit'}); } catch (e) { process.exit(1); }\"",
+    "test:e2e": "cd e2e && npm test",
+    "test:performance": "cd performance-tests && npm test",
+    "lint": "concurrently \"cd server && npm run lint\" \"cd client && npm run lint\"",
+    "build": "cd client && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

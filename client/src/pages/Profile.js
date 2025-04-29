@@ -27,9 +27,7 @@ import {
   Lock as LockIcon,
   Person as PersonIcon,
   Settings as SettingsIcon,
-  Notifications as NotificationsIcon,
 } from '@mui/icons-material';
-import { toast } from 'react-toastify';
 
 import AuthContext from '../context/AuthContext';
 import LearningContext from '../context/LearningContext';
@@ -58,7 +56,7 @@ function TabPanel(props) {
 const Profile = () => {
   const { user, updateProfile, changePassword, loading: authLoading } = useContext(AuthContext);
   const { userLevel, updateUserLevel } = useContext(LearningContext);
-  
+
   const [activeTab, setActiveTab] = useState(0);
   const [profileData, setProfileData] = useState({
     name: '',
@@ -79,7 +77,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  
+
   // Load user data
   useEffect(() => {
     if (user) {
@@ -88,22 +86,22 @@ const Profile = () => {
         email: user.email || '',
         bio: user.bio || '',
       });
-      
+
       // Load preferences if available
       if (user.preferences) {
-        setPreferences({
-          ...preferences,
+        setPreferences(prevPreferences => ({
+          ...prevPreferences,
           ...user.preferences,
-        });
+        }));
       }
     }
   }, [user]);
-  
+
   // Handle tab change
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
-  
+
   // Handle profile form changes
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
@@ -112,7 +110,7 @@ const Profile = () => {
       [name]: value,
     });
   };
-  
+
   // Handle password form changes
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
@@ -121,36 +119,36 @@ const Profile = () => {
       [name]: value,
     });
   };
-  
+
   // Handle preferences changes
   const handlePreferenceChange = (e) => {
     const { name, value, checked } = e.target;
     const newValue = e.target.type === 'checkbox' ? checked : value;
-    
+
     setPreferences({
       ...preferences,
       [name]: newValue,
     });
-    
+
     // Update learning level in context if changed
     if (name === 'level' && value !== userLevel) {
       updateUserLevel(value);
     }
   };
-  
+
   // Submit profile update
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
     setLoading(true);
-    
+
     try {
       const success = await updateProfile({
         ...profileData,
         preferences,
       });
-      
+
       if (success) {
         setSuccess('Profile updated successfully');
       }
@@ -160,31 +158,31 @@ const Profile = () => {
       setLoading(false);
     }
   };
-  
+
   // Submit password change
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-    
+
     // Validate passwords
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setError('New passwords do not match');
       return;
     }
-    
+
     if (passwordData.newPassword.length < 6) {
       setError('Password must be at least 6 characters long');
       return;
     }
-    
+
     setLoading(true);
     try {
       const success = await changePassword(
         passwordData.currentPassword,
         passwordData.newPassword
       );
-      
+
       if (success) {
         setSuccess('Password changed successfully');
         setPasswordData({
@@ -199,13 +197,13 @@ const Profile = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Your Profile
       </Typography>
-      
+
       <Grid container spacing={3}>
         {/* Sidebar */}
         <Grid item xs={12} md={4}>
@@ -222,17 +220,17 @@ const Profile = () => {
             >
               {user?.name?.charAt(0) || 'U'}
             </Avatar>
-            
+
             <Typography variant="h5" gutterBottom>
               {user?.name || 'User'}
             </Typography>
-            
+
             <Typography variant="body2" color="text.secondary" paragraph>
               {user?.email || 'user@example.com'}
             </Typography>
-            
+
             <Divider sx={{ my: 2 }} />
-            
+
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="subtitle1" gutterBottom>
                 Learning Level
@@ -240,19 +238,19 @@ const Profile = () => {
               <Typography variant="body2" color="text.secondary" paragraph>
                 {preferences.level.charAt(0).toUpperCase() + preferences.level.slice(1)}
               </Typography>
-              
+
               <Typography variant="subtitle1" gutterBottom>
                 Member Since
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {user?.createdAt 
-                  ? new Date(user.createdAt).toLocaleDateString() 
+                {user?.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString()
                   : 'Unknown'}
               </Typography>
             </Box>
           </Paper>
         </Grid>
-        
+
         {/* Main content */}
         <Grid item xs={12} md={8}>
           <Paper sx={{ width: '100%' }}>
@@ -267,12 +265,12 @@ const Profile = () => {
               <Tab icon={<LockIcon />} label="Security" />
               <Tab icon={<SettingsIcon />} label="Preferences" />
             </Tabs>
-            
+
             {/* Profile Tab */}
             <TabPanel value={activeTab} index={0}>
               {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
               {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-              
+
               <Box component="form" onSubmit={handleProfileSubmit}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -285,7 +283,7 @@ const Profile = () => {
                       required
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
@@ -298,7 +296,7 @@ const Profile = () => {
                       disabled // Email changes might require verification
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
@@ -311,7 +309,7 @@ const Profile = () => {
                       placeholder="Tell us a bit about yourself and your learning goals..."
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12}>
                     <Button
                       type="submit"
@@ -330,12 +328,12 @@ const Profile = () => {
                 </Grid>
               </Box>
             </TabPanel>
-            
+
             {/* Security Tab */}
             <TabPanel value={activeTab} index={1}>
               {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
               {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-              
+
               <Box component="form" onSubmit={handlePasswordSubmit}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -349,7 +347,7 @@ const Profile = () => {
                       required
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
@@ -361,7 +359,7 @@ const Profile = () => {
                       required
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
@@ -373,7 +371,7 @@ const Profile = () => {
                       required
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12}>
                     <Button
                       type="submit"
@@ -392,7 +390,7 @@ const Profile = () => {
                 </Grid>
               </Box>
             </TabPanel>
-            
+
             {/* Preferences Tab */}
             <TabPanel value={activeTab} index={2}>
               <Grid container spacing={3}>
@@ -402,7 +400,7 @@ const Profile = () => {
                       <Typography variant="h6" gutterBottom>
                         Learning Preferences
                       </Typography>
-                      
+
                       <FormControl fullWidth sx={{ mb: 2 }}>
                         <InputLabel id="level-label">Learning Level</InputLabel>
                         <Select
@@ -417,7 +415,7 @@ const Profile = () => {
                           <MenuItem value="advanced">Advanced</MenuItem>
                         </Select>
                       </FormControl>
-                      
+
                       <FormControlLabel
                         control={
                           <Switch
@@ -431,14 +429,14 @@ const Profile = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                
+
                 <Grid item xs={12}>
                   <Card>
                     <CardContent>
                       <Typography variant="h6" gutterBottom>
                         Notification Settings
                       </Typography>
-                      
+
                       <FormControlLabel
                         control={
                           <Switch
@@ -452,14 +450,14 @@ const Profile = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                
+
                 <Grid item xs={12}>
                   <Card>
                     <CardContent>
                       <Typography variant="h6" gutterBottom>
                         Display Settings
                       </Typography>
-                      
+
                       <FormControlLabel
                         control={
                           <Switch
@@ -473,7 +471,7 @@ const Profile = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-                
+
                 <Grid item xs={12}>
                   <Button
                     variant="contained"

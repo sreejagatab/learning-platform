@@ -1,0 +1,8 @@
+{
+  "name": "learning-platform-performance-tests",
+  "version": "1.0.0",
+  "description": "Performance tests for the Learning Platform",
+  "scripts": {
+    "test": "k6 run api-load-test.js"
+  }
+}

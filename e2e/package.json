@@ -1,0 +1,13 @@
+{
+  "name": "learning-platform-e2e",
+  "version": "1.0.0",
+  "description": "End-to-end tests for the Learning Platform",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^12.14.0"
+  }
+}

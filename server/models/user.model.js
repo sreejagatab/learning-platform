@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const config = require('config');
 
 const UserSchema = new mongoose.Schema({
@@ -65,6 +66,10 @@ const UserSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  gamification: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Gamification'
   }
 });
 

@@ -178,3 +178,283 @@ TypeError: Router.use() requires a middleware function but got a Object
     at Module.load (node:internal/modules/cjs/loader:1465:32)
     at Function._load (node:internal/modules/cjs/loader:1282:12)
     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 02:11:19 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 03:31:42 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 11:10:45 [ERROR]: uncaughtException: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:3:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 11:25:01 [ERROR]: uncaughtException: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:3:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 11:25:54 [ERROR]: uncaughtException: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:3:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 11:29:59 [ERROR]: uncaughtException: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:3:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 12:26:21 [ERROR]: uncaughtException: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:3:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 12:28:52 [ERROR]: uncaughtException: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/async'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:3:22)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 12:29:57 [ERROR]: uncaughtException: Cannot find module '../utils/errorResponse'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../utils/errorResponse'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 12:30:06 [ERROR]: uncaughtException: Cannot find module '../utils/errorResponse'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../utils/errorResponse'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\gamification.controller.js:4:23)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 12:30:26 [ERROR]: uncaughtException: Cannot find module '../middleware/auth'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../middleware/auth'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\gamification.routes.js:14:21)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-29 12:30:47 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 12:31:13 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 12:31:25 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 13:03:24 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-29 13:03:29 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

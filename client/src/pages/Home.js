@@ -9,8 +9,6 @@ import {
   Paper,
   Card,
   CardContent,
-  CardMedia,
-  CardActions,
   Divider,
 } from '@mui/material';
 import {

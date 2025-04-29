@@ -18,24 +18,25 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import AuthContext from '../context/AuthContext';
+import DemoCredentials from '../components/common/DemoCredentials';
 
 const Login = () => {
   const { login, isAuthenticated, loading, error, clearError } = useContext(AuthContext);
   const navigate = useNavigate();
   const [localError, setLocalError] = useState('');
-  
+
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/dashboard');
     }
-    
+
     // Clear error when component unmounts
     return () => {
       clearError();
     };
   }, [isAuthenticated, navigate, clearError]);
-  
+
   // Form validation schema
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -44,7 +45,7 @@ const Login = () => {
     password: Yup.string()
       .required('Password is required')
   });
-  
+
   // Form handler
   const formik = useFormik({
     initialValues: {
@@ -54,10 +55,10 @@ const Login = () => {
     validationSchema,
     onSubmit: async (values) => {
       setLocalError('');
-      
+
       try {
         const success = await login(values.email, values.password);
-        
+
         if (success) {
           navigate('/dashboard');
         }
@@ -66,13 +67,27 @@ const Login = () => {
       }
     }
   });
-  
+
+  // Check if we're in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // Handle selecting demo credentials
+  const handleSelectCredentials = (credentials) => {
+    formik.setValues({
+      email: credentials.email,
+      password: credentials.password
+    });
+  };
+
   return (
     <Container component="main" maxWidth="xs">
+      {/* Show demo credentials in development mode */}
+      {isDevelopment && <DemoCredentials onSelectCredentials={handleSelectCredentials} />}
+
       <Paper
         elevation={3}
         sx={{
-          marginTop: 8,
+          marginTop: isDevelopment ? 2 : 8,
           padding: 4,
           display: 'flex',
           flexDirection: 'column',
@@ -82,17 +97,17 @@ const Login = () => {
         <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        
+
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        
+
         {(error || localError) && (
           <Alert severity="error" sx={{ mt: 2, width: '100%' }}>
             {error || localError}
           </Alert>
         )}
-        
+
         <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1, width: '100%' }}>
           <TextField
             margin="normal"
@@ -109,7 +124,7 @@ const Login = () => {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          
+
           <TextField
             margin="normal"
             required
@@ -125,7 +140,7 @@ const Login = () => {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          
+
           <Button
             type="submit"
             fullWidth
@@ -135,7 +150,7 @@ const Login = () => {
           >
             {loading ? <CircularProgress size={24} /> : 'Sign In'}
           </Button>
-          
+
           <Grid container>
             <Grid item xs>
               <Link component={RouterLink} to="/forgot-password" variant="body2">
