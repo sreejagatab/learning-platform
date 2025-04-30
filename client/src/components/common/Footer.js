@@ -23,7 +23,7 @@ const Footer = () => {
               Personalized learning powered by Perplexity Sonar API
             </Typography>
           </Grid>
-          
+
           <Grid item xs={12} sm={4}>
             <Typography variant="h6" color="text.primary" gutterBottom>
               Links
@@ -38,17 +38,17 @@ const Footer = () => {
               Dashboard
             </Link>
           </Grid>
-          
+
           <Grid item xs={12} sm={4}>
             <Typography variant="h6" color="text.primary" gutterBottom>
               About
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              LearnSphere is a personalized learning platform built with Perplexity's Sonar API, providing in-depth explanations on any topic with follow-up questions.
+              LearnSphere is a personalized learning platform built with Perplexity&apos;s Sonar API, providing in-depth explanations on any topic with follow-up questions.
             </Typography>
           </Grid>
         </Grid>
-        
+
         <Box mt={5}>
           <Typography variant="body2" color="text.secondary" align="center">
             {'Copyright © '}

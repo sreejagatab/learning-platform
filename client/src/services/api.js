@@ -1,6 +1,24 @@
 import axios from 'axios';
 
 // Create axios instance with base URL
+// Try both port 5000 and 5001 to handle different server configurations
+const tryPorts = async () => {
+  // First try port 5001 (default in config)
+  try {
+    const response = await fetch('http://localhost:5001/api/health', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors'
+    });
+    return 'http://localhost:5001/api';
+  } catch (error) {
+    console.log('Port 5001 not available, trying port 5000...');
+    // If 5001 fails, try port 5000
+    return 'http://localhost:5000/api';
+  }
+};
+
+// For now, use port 5000 as default since we know it's working
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   headers: {
@@ -52,7 +70,7 @@ export const learningAPI = {
   getContentById: (id) => api.get(`/learning/content/${id}`),
   deleteContent: (id) => api.delete(`/learning/content/${id}`),
 
-  // Create new content with proper JSON formatting
+  // Create new content with enhanced JSON formatting and error handling
   createContent: async (contentData) => {
     try {
       // Ensure contentData is properly formatted with all required fields
@@ -83,14 +101,29 @@ export const learningAPI = {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
-      // Ensure the data is properly stringified
+      // Ensure the data is properly stringified and valid JSON
       const jsonData = JSON.stringify(formattedData);
 
+      // Validate JSON before sending
+      try {
+        // Parse the stringified data to ensure it's valid JSON
+        JSON.parse(jsonData);
+      } catch (jsonError) {
+        console.error('Invalid JSON format:', jsonError);
+        throw new Error('Content data contains invalid format. Please try again with simpler content.');
+      }
+
+      // Send the request with the validated JSON data
       const response = await api.post('/learning/content', formattedData, {
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        // Add additional safeguards for JSON handling
+        transformRequest: [(data) => {
+          // Ensure data is properly stringified
+          return typeof data === 'string' ? data : JSON.stringify(data);
+        }]
       });
 
       clearTimeout(timeoutId);
@@ -106,6 +139,7 @@ export const learningAPI = {
         // that falls out of the range of 2xx
         const errorMessage = error.response.data.message ||
                             error.response.data.error ||
+                            error.response.data.details ||
                             `Server error: ${error.response.status}`;
         throw new Error(errorMessage);
       } else if (error.request) {
@@ -118,7 +152,7 @@ export const learningAPI = {
     }
   },
 
-  // Update existing content
+  // Update existing content with enhanced JSON formatting and error handling
   updateContent: async (id, contentData) => {
     try {
       // Ensure contentData is properly formatted with all required fields
@@ -149,14 +183,29 @@ export const learningAPI = {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
-      // Ensure the data is properly stringified
+      // Ensure the data is properly stringified and valid JSON
       const jsonData = JSON.stringify(formattedData);
 
+      // Validate JSON before sending
+      try {
+        // Parse the stringified data to ensure it's valid JSON
+        JSON.parse(jsonData);
+      } catch (jsonError) {
+        console.error('Invalid JSON format:', jsonError);
+        throw new Error('Content data contains invalid format. Please try again with simpler content.');
+      }
+
+      // Send the request with the validated JSON data
       const response = await api.put(`/learning/content/${id}`, formattedData, {
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        // Add additional safeguards for JSON handling
+        transformRequest: [(data) => {
+          // Ensure data is properly stringified
+          return typeof data === 'string' ? data : JSON.stringify(data);
+        }]
       });
 
       clearTimeout(timeoutId);
@@ -172,6 +221,7 @@ export const learningAPI = {
         // that falls out of the range of 2xx
         const errorMessage = error.response.data.message ||
                             error.response.data.error ||
+                            error.response.data.details ||
                             `Server error: ${error.response.status}`;
         throw new Error(errorMessage);
       } else if (error.request) {

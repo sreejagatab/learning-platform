@@ -1,14 +1,15 @@
-# Prompt Engineering System for LearnSphere
+# Enhanced Prompt Engineering System for LearnSphere
 
-This directory contains the prompt engineering system for LearnSphere, which optimizes interactions with the Perplexity Sonar API to provide high-quality educational responses.
+This directory contains the enhanced prompt engineering system for LearnSphere, which optimizes interactions with the Perplexity Sonar API to provide high-quality educational responses.
 
 ## Overview
 
-The prompt engineering system uses a modular approach to generate optimized prompts for different educational contexts, domains, and user knowledge levels. It consists of several components:
+The prompt engineering system uses a sophisticated approach to generate optimized prompts for different educational contexts, domains, and user knowledge levels. It consists of several components:
 
 - **Base Prompts**: Core templates for different user levels and content types
-- **Domain Prompts**: Specialized templates for different educational domains (e.g., computer science, mathematics, etc.)
+- **Domain Prompts**: Specialized templates for different educational domains
 - **Learning Path Prompts**: Structured templates for generating comprehensive learning paths
+- **Advanced Prompts**: Enhanced templates with more detailed instructions and better domain detection
 
 ## Files
 
@@ -16,6 +17,17 @@ The prompt engineering system uses a modular approach to generate optimized prom
 - `basePrompts.js`: Base templates for different user levels and content types
 - `domainPrompts.js`: Domain-specific templates and detection logic
 - `learningPathPrompts.js`: Templates for generating structured learning paths
+- `advancedPrompts.js`: Enhanced templates with more sophisticated instructions
+
+## Configuration
+
+The prompt engineering system can be configured through `server/config/promptEngineering.js`, which allows for:
+
+- Enabling/disabling advanced features
+- Adjusting domain detection parameters
+- Setting content type detection thresholds
+- Configuring system prompt behavior
+- Tuning follow-up question handling
 
 ## Usage
 
@@ -28,65 +40,104 @@ const enhancedPrompt = promptEngineering.generateOptimizedPrompt(query, userCont
 // Generate a learning path prompt
 const learningPathPrompt = promptEngineering.generateLearningPathOptimizedPrompt(topic, userContext);
 
-// Generate a follow-up prompt
-const followUpPrompt = promptEngineering.generateFollowUpPrompt(followUpQuery, userContext);
+// Generate a follow-up prompt with enhanced context retention
+const followUpPrompt = promptEngineering.generateFollowUpPrompt(followUpQuery, enhancedUserContext);
+
+// Configure the prompt engineering system
+const currentConfig = promptEngineering.configurePromptEngineering({
+  useAdvancedPrompts: true,
+  useContextRetention: true,
+  debugMode: false
+});
 ```
 
-## Features
+## Key Features
 
-### 1. User Level Adaptation
+### 1. Advanced User Level Adaptation
 
-Prompts are tailored to the user's knowledge level:
+Prompts are tailored to the user's knowledge level with detailed instructions:
 
-- **Beginner**: Simple explanations with minimal jargon
-- **Intermediate**: Comprehensive explanations with balanced depth
-- **Advanced**: In-depth analysis with technical details
+- **Beginner**: Simple explanations with everyday analogies and minimal jargon
+- **Intermediate**: Balanced depth with field-specific terminology and connections to existing knowledge
+- **Advanced**: Sophisticated explanations with precise terminology and cutting-edge developments
+- **Expert**: Highly technical information with references to recent research and methodological considerations
 
-### 2. Domain-Specific Optimization
+### 2. Enhanced Domain Detection
 
-The system detects the domain of the query and applies specialized templates for:
+The system uses a weighted keyword matching algorithm to detect the domain of a query:
 
-- Computer Science & Programming
-- Mathematics
-- Natural Sciences
-- Social Sciences
-- Arts & Humanities
-- Health & Medicine
-- Business & Economics
-- Technology & Engineering
-- Languages & Linguistics
+- Computer Science & Programming (expanded keyword set)
+- Mathematics (with specialized sub-domains)
+- Natural Sciences (physics, chemistry, biology, etc.)
+- Social Sciences (psychology, sociology, economics, etc.)
+- Arts & Humanities (literature, philosophy, art, etc.)
+- Health & Medicine (with medical specialties)
+- Business & Economics (with business functions)
+- Technology & Engineering (with engineering disciplines)
 
-### 3. Content Type Optimization
+### 3. Expanded Content Type Detection
 
-Different types of educational content are handled with specialized templates:
+More sophisticated detection of educational content types:
 
-- Explanations
-- Comparisons
-- How-to guides
-- Analysis
-- Definitions
+- Explanations (comprehensive with key principles)
+- Comparisons (structured with clear categories)
+- How-to guides (step-by-step with troubleshooting)
+- Analysis (multiple perspectives and frameworks)
+- Definitions (formal, contextual, and historical)
+- Evaluations (strengths, weaknesses, and balanced judgment)
+- Synthesis (integration of current understanding)
 
-### 4. Learning Path Structure
+### 4. Improved Context Retention
 
-Learning paths are generated with a structured format based on the user's level:
+For follow-up questions, the system:
 
-- Beginner paths focus on fundamentals and practical understanding
-- Intermediate paths balance theory with application
-- Advanced paths emphasize depth, research, and mastery
+- Analyzes the type of follow-up (clarification, deepening, application, connection)
+- Maintains context from previous messages
+- Provides specific instructions for maintaining continuity
+
+### 5. Dynamic Parameter Adjustment
+
+The system dynamically adjusts API parameters based on:
+
+- Query complexity
+- Domain
+- Content type
+- User level
+
+### 6. Enhanced Learning Path Structure
+
+Learning paths are generated with a more sophisticated structure:
+
+- Beginner paths focus on fundamentals with concrete examples and practical applications
+- Intermediate paths balance theory with application and include resources for deeper exploration
+- Advanced paths emphasize depth, current research, and specialized methodologies
+- All paths include clear prerequisites, logical progression, and appropriate resources
 
 ## Extending the System
 
-To add new templates or domains:
+To add new domains or content types:
 
-1. Add new templates to the appropriate file
-2. Update the detection logic if needed
-3. The system will automatically use the new templates
+1. Add new templates to the appropriate files
+2. Update the detection logic in `analyzeQueryIntent` or `detectDomainEnhanced`
+3. Add any necessary configuration parameters to `promptEngineering.js`
+4. The system will automatically use the new templates based on the detection logic
+
+## Performance Considerations
+
+- Domain detection uses weighted keyword matching, which is efficient but may need tuning for specific use cases
+- System prompts are designed to be comprehensive but should be kept under 2048 tokens
+- Context retention for follow-ups maintains a balance between completeness and token efficiency
+- Configuration options allow for fine-tuning the system based on performance requirements
 
 ## Benefits
 
-This prompt engineering system provides several benefits:
+This enhanced prompt engineering system provides several benefits:
 
-- **Improved Response Quality**: More relevant and educational responses
+- **Improved Response Quality**: More relevant, accurate, and educational responses
 - **Consistent Structure**: Standardized format for different types of content
 - **Domain Expertise**: Specialized knowledge for different educational fields
-- **Personalization**: Adaptation to the user's knowledge level
+- **Personalization**: Sophisticated adaptation to the user's knowledge level
+- **Better Context Retention**: More coherent follow-up responses
+- **Optimized API Usage**: Dynamic parameter adjustment for better results
+- **Configurability**: Flexible system that can be tuned for different use cases
+- **Extensibility**: Easy to add new domains, content types, and features

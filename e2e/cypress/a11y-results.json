@@ -1,0 +1,47 @@
+{
+  "violations": [
+    {
+      "id": "image-alt",
+      "impact": "serious",
+      "description": "Images must have alternate text",
+      "help": "Provide alternative text for images",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/image-alt",
+      "nodes": [
+        {
+          "html": "<img src=\"/images/profile.jpg\">",
+          "target": ["img[src=\"/images/profile.jpg\"]"]
+        },
+        {
+          "html": "<img src=\"/images/logo.png\">",
+          "target": ["img[src=\"/images/logo.png\"]"]
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "impact": "moderate",
+      "description": "Elements must have sufficient color contrast",
+      "help": "Ensure sufficient color contrast between foreground and background",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/color-contrast",
+      "nodes": [
+        {
+          "html": "<span class=\"badge-light\">Beginner</span>",
+          "target": [".badge-light"]
+        }
+      ]
+    },
+    {
+      "id": "label",
+      "impact": "serious",
+      "description": "Form elements must have labels",
+      "help": "Provide a label for form elements",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/label",
+      "nodes": [
+        {
+          "html": "<input type=\"text\" name=\"search\">",
+          "target": ["input[name=\"search\"]"]
+        }
+      ]
+    }
+  ]
+}

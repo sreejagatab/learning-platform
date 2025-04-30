@@ -31,6 +31,8 @@ import {
   PersonAdd as RegisterIcon,
   EmojiEvents,
   Insights as InsightsIcon,
+  Add as AddIcon,
+  Settings as SettingsIcon,
 } from '@mui/icons-material';
 
 import AuthContext from '../../context/AuthContext';
@@ -99,6 +101,10 @@ const Navbar = () => {
             <ListItem button component={RouterLink} to="/profile">
               <ListItemIcon><PersonIcon /></ListItemIcon>
               <ListItemText primary="Profile" />
+            </ListItem>
+            <ListItem button component={RouterLink} to="/preferences">
+              <ListItemIcon><SettingsIcon /></ListItemIcon>
+              <ListItemText primary="Preferences" />
             </ListItem>
             <ListItem button onClick={handleLogout}>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
@@ -179,6 +185,24 @@ const Navbar = () => {
                 {item.title}
               </Button>
             ))}
+
+            {/* Create Content Button - only show when authenticated */}
+            {isAuthenticated && (
+              <Button
+                component={RouterLink}
+                to="/content/create"
+                variant="contained"
+                color="secondary"
+                startIcon={<AddIcon />}
+                sx={{
+                  my: 1.5,
+                  ml: 2,
+                  fontWeight: 'bold'
+                }}
+              >
+                Create Content
+              </Button>
+            )}
           </Box>
 
           {/* Gamification elements */}
@@ -216,9 +240,15 @@ const Navbar = () => {
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem onClick={handleCloseUserMenu} component={RouterLink} to="/profile">
+                    <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
                     <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu} component={RouterLink} to="/preferences">
+                    <ListItemIcon><SettingsIcon fontSize="small" /></ListItemIcon>
+                    <Typography textAlign="center">Preferences</Typography>
+                  </MenuItem>
                   <MenuItem onClick={handleLogout}>
+                    <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
                     <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
                 </Menu>

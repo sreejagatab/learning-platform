@@ -43,7 +43,7 @@ const connectDB = async () => {
 connectDB();
 
 // Server configuration
-const PORT = process.env.PORT || config.get('port') || 5000;
+const PORT = 5001; // Force port 5001 for testing
 
 // Start server
 const server = app.listen(PORT, () => {

@@ -22,6 +22,7 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Tooltip,
 } from '@mui/material';
 import {
   Send as SendIcon,
@@ -30,6 +31,7 @@ import {
   Link as LinkIcon,
   RefreshOutlined as RefreshIcon,
   CreateNewFolder as PathIcon,
+  Settings as SettingsIcon,
 } from '@mui/icons-material';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -39,6 +41,8 @@ import { toast } from 'react-toastify';
 
 import LearningContext from '../context/LearningContext';
 import AuthContext from '../context/AuthContext';
+import UserPreferencesContext from '../context/UserPreferencesContext';
+import KnowledgeLevelSelector from '../components/KnowledgeLevelSelector';
 
 const Learn = () => {
   const {
@@ -57,98 +61,103 @@ const Learn = () => {
     userLevel,
     updateUserLevel,
   } = useContext(LearningContext);
-  
+
   const { user } = useContext(AuthContext);
+  const { preferences, setKnowledgeLevel } = useContext(UserPreferencesContext);
   const navigate = useNavigate();
-  
+
   const [query, setQuery] = useState('');
   const [selectedFollowUp, setSelectedFollowUp] = useState('');
   const [expanded, setExpanded] = useState(false);
-  const [level, setLevel] = useState(userLevel || 'intermediate');
-  
+  const [showLevelSelector, setShowLevelSelector] = useState(false);
+  const [level, setLevel] = useState(preferences.knowledgeLevel || userLevel || 'intermediate');
+
   const messageEndRef = useRef(null);
-  
+
   // Scroll to bottom when messages change
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [sessionMessages]);
-  
+
   // Update level when user changes it
   useEffect(() => {
     updateUserLevel(level);
-  }, [level, updateUserLevel]);
-  
+    setKnowledgeLevel(level);
+  }, [level, updateUserLevel, setKnowledgeLevel]);
+
   const handleQuerySubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!query.trim()) {
       toast.error('Please enter a question');
       return;
     }
-    
+
     // Ask the question
     await askQuestion(query, { level });
-    
+
     // Clear the input
     setQuery('');
   };
-  
+
   const handleFollowUpClick = async (followUp) => {
     setSelectedFollowUp(followUp);
     await askFollowUpQuestion(followUp);
     setSelectedFollowUp('');
   };
-  
+
   const handleSaveContent = async () => {
     if (!currentResponse) {
       toast.error('No content to save');
       return;
     }
-    
-    const title = currentQuery.length > 50 
-      ? `${currentQuery.substring(0, 50)}...` 
+
+    const title = currentQuery.length > 50
+      ? `${currentQuery.substring(0, 50)}...`
       : currentQuery;
-    
+
     const metadata = {
       query: currentQuery,
       citations,
       level
     };
-    
+
     const contentId = await saveContent(title, currentResponse, 'note', metadata);
-    
+
     if (contentId) {
       toast.success('Content saved to your notes');
     }
   };
-  
+
   const handleCreateLearningPath = async () => {
     if (!currentQuery) {
       toast.error('Please ask a question first');
       return;
     }
-    
+
     // Extract main topic from query
-    const topic = currentQuery.split(' ').length > 3 
-      ? currentQuery.split(' ').slice(0, 3).join(' ') 
+    const topic = currentQuery.split(' ').length > 3
+      ? currentQuery.split(' ').slice(0, 3).join(' ')
       : currentQuery;
-    
+
     const pathData = await generateLearningPath(topic);
-    
+
     if (pathData && pathData.pathId) {
       navigate(`/learning-path/${pathData.pathId}`);
     }
   };
-  
+
   const handleClearSession = () => {
     clearSession();
     toast.info('Learning session cleared');
   };
-  
-  const handleLevelChange = (e) => {
-    setLevel(e.target.value);
+
+  const handleLevelChange = (newLevel) => {
+    setLevel(newLevel);
+    setShowLevelSelector(false);
+    toast.info(`Knowledge level set to ${newLevel.charAt(0).toUpperCase() + newLevel.slice(1)}`);
   };
-  
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
@@ -160,34 +169,47 @@ const Learn = () => {
               <Typography variant="h5" component="h1" gutterBottom>
                 Learn Anything
               </Typography>
-              <Box>
-                <FormControl variant="outlined" size="small" sx={{ minWidth: 150 }}>
-                  <InputLabel id="level-select-label">Learning Level</InputLabel>
-                  <Select
-                    labelId="level-select-label"
-                    id="level-select"
-                    value={level}
-                    onChange={handleLevelChange}
-                    label="Learning Level"
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                {showLevelSelector ? (
+                  <Box sx={{ mr: 1 }}>
+                    <KnowledgeLevelSelector
+                      value={level}
+                      onChange={setLevel}
+                      variant="icons"
+                    />
+                  </Box>
+                ) : (
+                  <Tooltip title="Change Knowledge Level">
+                    <Chip
+                      label={level.charAt(0).toUpperCase() + level.slice(1)}
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => setShowLevelSelector(!showLevelSelector)}
+                      sx={{ mr: 1 }}
+                    />
+                  </Tooltip>
+                )}
+                <Tooltip title="Clear Session">
+                  <IconButton
+                    color="primary"
+                    onClick={handleClearSession}
                   >
-                    <MenuItem value="beginner">Beginner</MenuItem>
-                    <MenuItem value="intermediate">Intermediate</MenuItem>
-                    <MenuItem value="advanced">Advanced</MenuItem>
-                  </Select>
-                </FormControl>
-                <IconButton 
-                  color="primary" 
-                  onClick={handleClearSession}
-                  title="Clear Session"
-                  sx={{ ml: 1 }}
-                >
-                  <RefreshIcon />
-                </IconButton>
+                    <RefreshIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Preferences">
+                  <IconButton
+                    color="primary"
+                    onClick={() => navigate('/preferences')}
+                  >
+                    <SettingsIcon />
+                  </IconButton>
+                </Tooltip>
               </Box>
             </Box>
-            
+
             <Divider sx={{ mb: 2 }} />
-            
+
             {/* Chat messages */}
             <Box sx={{ flexGrow: 1, overflowY: 'auto', mb: 2 }}>
               {sessionMessages.length === 0 ? (
@@ -215,8 +237,8 @@ const Learn = () => {
                     sx={{
                       mb: 2,
                       p: 2,
-                      backgroundColor: message.role === 'user' 
-                        ? 'rgba(25, 118, 210, 0.05)' 
+                      backgroundColor: message.role === 'user'
+                        ? 'rgba(25, 118, 210, 0.05)'
                         : 'white',
                       borderRadius: 2,
                       maxWidth: '100%',
@@ -225,7 +247,7 @@ const Learn = () => {
                     <Typography variant="subtitle2" color="text.secondary">
                       {message.role === 'user' ? 'You' : 'LearnSphere'}
                     </Typography>
-                    
+
                     {message.role === 'user' ? (
                       <Typography variant="body1">{message.content}</Typography>
                     ) : (
@@ -261,7 +283,7 @@ const Learn = () => {
               )}
               <div ref={messageEndRef} />
             </Box>
-            
+
             {/* Input area */}
             <Box component="form" onSubmit={handleQuerySubmit}>
               <TextField
@@ -288,7 +310,7 @@ const Learn = () => {
             </Box>
           </Paper>
         </Grid>
-        
+
         {/* Sidebar */}
         <Grid item xs={12} md={4}>
           {/* Follow-up questions */}
@@ -297,7 +319,7 @@ const Learn = () => {
               Follow-up Questions
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            
+
             {followUpQuestions && followUpQuestions.length > 0 ? (
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {followUpQuestions.map((followUp, index) => (
@@ -316,20 +338,20 @@ const Learn = () => {
               </Box>
             ) : (
               <Typography variant="body2" color="text.secondary">
-                {currentResponse 
-                  ? 'No follow-up questions available' 
+                {currentResponse
+                  ? 'No follow-up questions available'
                   : 'Ask a question to see follow-up suggestions'}
               </Typography>
             )}
           </Paper>
-          
+
           {/* Action buttons */}
           <Paper sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Actions
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            
+
             <Button
               variant="outlined"
               color="primary"
@@ -341,7 +363,7 @@ const Learn = () => {
             >
               Save to Notes
             </Button>
-            
+
             <Button
               variant="outlined"
               color="secondary"
@@ -353,7 +375,7 @@ const Learn = () => {
               Create Learning Path
             </Button>
           </Paper>
-          
+
           {/* Citations */}
           {citations && citations.length > 0 && (
             <Paper sx={{ p: 2 }}>
@@ -361,7 +383,7 @@ const Learn = () => {
                 Sources & Citations
               </Typography>
               <Divider sx={{ mb: 2 }} />
-              
+
               <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>
@@ -376,22 +398,22 @@ const Learn = () => {
                           <Typography variant="subtitle2">
                             {citation.title || 'Unknown Source'}
                           </Typography>
-                          
+
                           {citation.snippet && (
                             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                              {citation.snippet.length > 150 
-                                ? `${citation.snippet.substring(0, 150)}...` 
+                              {citation.snippet.length > 150
+                                ? `${citation.snippet.substring(0, 150)}...`
                                 : citation.snippet}
                             </Typography>
                           )}
-                          
+
                           {citation.url && (
-                            <Link 
-                              href={citation.url} 
-                              target="_blank" 
+                            <Link
+                              href={citation.url}
+                              target="_blank"
                               rel="noopener noreferrer"
-                              sx={{ 
-                                display: 'flex', 
+                              sx={{
+                                display: 'flex',
                                 alignItems: 'center',
                                 mt: 1,
                                 fontSize: '0.875rem'

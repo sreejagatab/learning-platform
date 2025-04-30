@@ -89,9 +89,9 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
       case 'image':
         insertHtml = `<img src="${mediaUrl}" alt="${mediaAlt}" style="max-width: ${mediaWidth}; height: ${mediaHeight};" />`;
         break;
-      case 'video':
+      case 'video': {
         // Extract YouTube video ID if it's a YouTube URL
-        const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+        const youtubeRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/;
         const match = mediaUrl.match(youtubeRegex);
 
         if (match && match[1]) {
@@ -101,6 +101,7 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
           insertHtml = `<video controls src="${mediaUrl}" style="max-width: ${mediaWidth}; height: ${mediaHeight};" />`;
         }
         break;
+      }
       case 'link':
         insertHtml = `<a href="${mediaUrl}" target="_blank" rel="noopener noreferrer">${mediaAlt || mediaUrl}</a>`;
         break;

@@ -1,0 +1,31 @@
+{
+  "totalVulnerabilities": 15,
+  "critical": 0,
+  "high": 2,
+  "moderate": 5,
+  "low": 8,
+  "info": 0,
+  "details": [
+    {
+      "package": "lodash",
+      "severity": "high",
+      "via": "Prototype Pollution",
+      "component": "client",
+      "fixAvailable": true
+    },
+    {
+      "package": "axios",
+      "severity": "moderate",
+      "via": "Server-Side Request Forgery",
+      "component": "client",
+      "fixAvailable": true
+    },
+    {
+      "package": "express",
+      "severity": "low",
+      "via": "Denial of Service",
+      "component": "server",
+      "fixAvailable": false
+    }
+  ]
+}

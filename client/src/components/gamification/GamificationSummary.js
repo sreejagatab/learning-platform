@@ -327,7 +327,7 @@ const GamificationSummary = () => {
               <Box sx={{ textAlign: 'center', p: 4 }}>
                 <Icon sx={{ fontSize: 60, color: 'text.secondary', mb: 2 }}>emoji_events</Icon>
                 <Typography variant="body1" color="text.secondary">
-                  You haven't earned any badges yet. Keep learning to unlock achievements!
+                  You haven&apos;t earned any badges yet. Keep learning to unlock achievements!
                 </Typography>
                 <Button
                   variant="contained"

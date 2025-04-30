@@ -1,5 +1,6 @@
 {
   "corsOrigin": "*",
-  "port": 5000,
-  "sonarApiKey": "dummy-key"
+  "port": 5001,
+  "sonarApiKey": "dummy-key",
+  "useMockData": true
 }

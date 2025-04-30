@@ -249,12 +249,12 @@ const Dashboard = () => {
         </Alert>
 
         <Typography variant="h4" component="h1" gutterBottom>
-          {user?.name}'s Learning Dashboard
+          {user?.name}&apos;s Learning Dashboard
         </Typography>
 
         <Paper sx={{ p: 3, textAlign: 'center' }}>
           <Typography variant="body1">
-            We're having trouble loading your dashboard data.
+            We&apos;re having trouble loading your dashboard data.
           </Typography>
           <Button
             variant="contained"
@@ -272,11 +272,51 @@ const Dashboard = () => {
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        {user?.name}'s Learning Dashboard
+        {user?.name}&apos;s Learning Dashboard
       </Typography>
 
       {/* Gamification Summary */}
       <GamificationSummary />
+
+      {/* Featured Actions */}
+      <Paper
+        sx={{
+          p: 3,
+          mb: 4,
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 2,
+          bgcolor: 'primary.light',
+          color: 'primary.contrastText'
+        }}
+      >
+        <Box>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Create New Content
+          </Typography>
+          <Typography variant="body1">
+            Create notes, articles, learning paths and more with our rich text editor.
+          </Typography>
+        </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          component={RouterLink}
+          to="/content/create"
+          startIcon={<AddIcon />}
+          sx={{
+            px: 3,
+            py: 1.5,
+            fontWeight: 'bold',
+            boxShadow: 3
+          }}
+        >
+          Create Content
+        </Button>
+      </Paper>
 
       {/* Stats overview */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
@@ -463,7 +503,7 @@ const Dashboard = () => {
             ) : (
               <Box sx={{ textAlign: 'center', py: 2 }}>
                 <Typography color="text.secondary">
-                  You haven't saved any content yet
+                  You haven&apos;t saved any content yet
                 </Typography>
                 <Button
                   variant="contained"

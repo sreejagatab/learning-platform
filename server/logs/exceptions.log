@@ -458,3 +458,159 @@ Error: listen EADDRINUSE: address already in use :::5000
     at Module.load (node:internal/modules/cjs/loader:1465:32)
     at Function._load (node:internal/modules/cjs/loader:1282:12)
     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 10:14:06 [ERROR]: uncaughtException: Configuration property "useMockData" is not defined
+Error: Configuration property "useMockData" is not defined
+    at Config.get (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\config\lib\config.js:181:11)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\services\learning-path.service.js:13:70)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+2025-04-30 10:15:39 [ERROR]: uncaughtException: Cannot find module '../utils/mock-storage'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\services\learning-path.service.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\learning-path.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\learning-path.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+Error: Cannot find module '../utils/mock-storage'
+Require stack:
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\services\learning-path.service.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\controllers\learning-path.controller.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\routes\learning-path.routes.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\app.js
+- C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\services\learning-path.service.js:14:21)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+2025-04-30 10:16:24 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 10:17:57 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5000
+Error: listen EADDRINUSE: address already in use :::5000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 10:19:22 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 10:57:26 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 10:58:26 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+2025-04-30 10:59:41 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at Server.listen (node:net:2067:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+    at Module.load (node:internal/modules/cjs/loader:1275:32)
+    at Module._load (node:internal/modules/cjs/loader:1096:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+2025-04-30 11:01:38 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 11:03:43 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 11:09:05 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+2025-04-30 11:10:45 [ERROR]: uncaughtException: listen EADDRINUSE: address already in use :::5001
+Error: listen EADDRINUSE: address already in use :::5001
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (C:\Users\sreen\Desktop\freelance\learning-platform\server\node_modules\express\lib\application.js:635:24)
+    at Object.<anonymous> (C:\Users\sreen\Desktop\freelance\learning-platform\server\server.js:49:20)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

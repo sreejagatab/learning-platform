@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Platform Test Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background-color: #f8f9fa;
+    }
+    .dashboard-header {
+      margin-bottom: 30px;
+    }
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border: none;
+    }
+    .card-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .trend-indicator {
+      font-size: 1.2rem;
+      margin-left: 10px;
+    }
+    .trend-up {
+      color: #28a745;
+    }
+    .trend-down {
+      color: #dc3545;
+    }
+    .trend-neutral {
+      color: #6c757d;
+    }
+    .test-summary {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    .test-metric {
+      text-align: center;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+      flex: 1;
+      margin: 0 5px;
+    }
+    .test-metric.passed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .test-metric.failed {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .test-metric.pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .test-metric.duration {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+    .coverage-bar {
+      height: 20px;
+      border-radius: 10px;
+      background-color: #e9ecef;
+      margin-bottom: 5px;
+      overflow: hidden;
+    }
+    .coverage-progress {
+      height: 100%;
+      background-color: #28a745;
+    }
+    .coverage-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    .security-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .security-severity {
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+    }
+    .severity-critical {
+      background-color: #dc3545;
+      color: white;
+    }
+    .severity-high {
+      background-color: #fd7e14;
+      color: white;
+    }
+    .severity-moderate {
+      background-color: #ffc107;
+      color: black;
+    }
+    .severity-low {
+      background-color: #6c757d;
+      color: white;
+    }
+    .a11y-issue {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+    }
+    .a11y-impact {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .impact-critical {
+      color: #dc3545;
+    }
+    .impact-serious {
+      color: #fd7e14;
+    }
+    .impact-moderate {
+      color: #ffc107;
+    }
+    .impact-minor {
+      color: #6c757d;
+    }
+    .performance-metric {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .threshold-passed {
+      color: #28a745;
+    }
+    .threshold-failed {
+      color: #dc3545;
+    }
+    .last-updated {
+      font-size: 0.8rem;
+      color: #6c757d;
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-header">
+      <h1>Learning Platform Test Dashboard</h1>
+      <p class="text-muted">Monitoring test results and quality metrics over time</p>
+    </div>
+
+    <div class="row">
+      <!-- Test Results Summary -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Test Results
+          </div>
+          <div class="card-body">
+            <div class="test-summary">
+              <div class="test-metric passed">
+                <div>Passed</div>
+                <div class="metric-value">245</div>
+                <div class="trend-indicator trend-up">↑ 5</div>
+              </div>
+              <div class="test-metric failed">
+                <div>Failed</div>
+                <div class="metric-value">3</div>
+                <div class="trend-indicator trend-down">↓ 2</div>
+              </div>
+              <div class="test-metric pending">
+                <div>Pending</div>
+                <div class="metric-value">12</div>
+                <div class="trend-indicator trend-neutral">→ 0</div>
+              </div>
+              <div class="test-metric duration">
+                <div>Duration</div>
+                <div class="metric-value">45s</div>
+                <div class="trend-indicator trend-down">↓ 3s</div>
+              </div>
+            </div>
+            <canvas id="testResultsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Coverage -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Code Coverage
+          </div>
+          <div class="card-body">
+            <h5>Overall: 84%</h5>
+            <div class="coverage-bar">
+              <div class="coverage-progress" style="width: 84%"></div>
+            </div>
+            <div class="coverage-label">
+              <span>0%</span>
+              <span>100%</span>
+            </div>
+
+            <h6 class="mt-4">Server</h6>
+            <div>
+              <div>Statements: 87%</div>
+              <div class="coverage-bar">
+                <div class="coverage-progress" style="width: 87%"></div>
+              </div>
+            </div>
+            <div>
+              <div>Branches: 78%</div>
+              <div class="coverage-bar">
+                <div class="coverage-progress" style="width: 78%"></div>
+              </div>
+            </div>
+            <div>
+              <div>Functions: 92%</div>
+              <div class="coverage-bar">
+                <div class="coverage-progress" style="width: 92%"></div>
+              </div>
+            </div>
+
+            <h6 class="mt-4">Client</h6>
+            <div>
+              <div>Statements: 82%</div>
+              <div class="coverage-bar">
+                <div class="coverage-progress" style="width: 82%"></div>
+              </div>
+            </div>
+            <div>
+              <div>Branches: 75%</div>
+              <div class="coverage-bar">
+                <div class="coverage-progress" style="width: 75%"></div>
+              </div>
+            </div>
+            <div>
+              <div>Functions: 89%</div>
+              <div class="coverage-bar">
+                <div class="coverage-progress" style="width: 89%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Security Vulnerabilities -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Security Vulnerabilities
+          </div>
+          <div class="card-body">
+            <div class="test-summary">
+              <div class="test-metric">
+                <div>Critical</div>
+                <div class="metric-value">0</div>
+                <div class="trend-indicator trend-neutral">→ 0</div>
+              </div>
+              <div class="test-metric">
+                <div>High</div>
+                <div class="metric-value">2</div>
+                <div class="trend-indicator trend-down">↓ 1</div>
+              </div>
+              <div class="test-metric">
+                <div>Moderate</div>
+                <div class="metric-value">5</div>
+                <div class="trend-indicator trend-down">↓ 2</div>
+              </div>
+              <div class="test-metric">
+                <div>Low</div>
+                <div class="metric-value">8</div>
+                <div class="trend-indicator trend-up">↑ 1</div>
+              </div>
+            </div>
+
+            <h6 class="mt-3">Recent Vulnerabilities</h6>
+            <div class="security-item">
+              <div>lodash</div>
+              <div class="security-severity severity-high">High</div>
+            </div>
+            <div class="security-item">
+              <div>axios</div>
+              <div class="security-severity severity-moderate">Moderate</div>
+            </div>
+            <div class="security-item">
+              <div>express</div>
+              <div class="security-severity severity-low">Low</div>
+            </div>
+
+            <canvas id="securityChart" class="mt-3"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accessibility Issues -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Accessibility Issues
+          </div>
+          <div class="card-body">
+            <div class="test-summary">
+              <div class="test-metric">
+                <div>Critical</div>
+                <div class="metric-value">0</div>
+                <div class="trend-indicator trend-neutral">→ 0</div>
+              </div>
+              <div class="test-metric">
+                <div>Serious</div>
+                <div class="metric-value">3</div>
+                <div class="trend-indicator trend-down">↓ 2</div>
+              </div>
+              <div class="test-metric">
+                <div>Moderate</div>
+                <div class="metric-value">7</div>
+                <div class="trend-indicator trend-down">↓ 3</div>
+              </div>
+              <div class="test-metric">
+                <div>Minor</div>
+                <div class="metric-value">12</div>
+                <div class="trend-indicator trend-down">↓ 5</div>
+              </div>
+            </div>
+
+            <h6 class="mt-3">Recent Issues</h6>
+            <div class="a11y-issue">
+              <div><span class="a11y-impact impact-serious">Serious</span> Missing form label</div>
+              <div class="text-muted">Element: input[name="search"]</div>
+            </div>
+            <div class="a11y-issue">
+              <div><span class="a11y-impact impact-moderate">Moderate</span> Insufficient color contrast</div>
+              <div class="text-muted">Element: .badge-light</div>
+            </div>
+            <div class="a11y-issue">
+              <div><span class="a11y-impact impact-minor">Minor</span> Missing alt text</div>
+              <div class="text-muted">Element: img.profile-avatar</div>
+            </div>
+
+            <canvas id="a11yChart" class="mt-3"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Performance Metrics -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Performance Metrics
+          </div>
+          <div class="card-body">
+            <div class="performance-metric">
+              <div>Average Response Time</div>
+              <div>245ms</div>
+            </div>
+            <div class="performance-metric">
+              <div>95th Percentile Response Time</div>
+              <div>450ms</div>
+            </div>
+            <div class="performance-metric">
+              <div>Max Response Time</div>
+              <div>1250ms</div>
+            </div>
+            <div class="performance-metric">
+              <div>Requests Per Second</div>
+              <div>120</div>
+            </div>
+            <div class="performance-metric">
+              <div>Error Rate</div>
+              <div>0.5%</div>
+            </div>
+
+            <h6 class="mt-3">Thresholds</h6>
+            <div class="performance-metric">
+              <div>http_req_duration: p(95) < 500ms</div>
+              <div class="threshold-passed">✓ Passed</div>
+            </div>
+            <div class="performance-metric">
+              <div>http_req_failed: rate < 1%</div>
+              <div class="threshold-passed">✓ Passed</div>
+            </div>
+            <div class="performance-metric">
+              <div>auth_duration: p(95) < 300ms</div>
+              <div class="threshold-failed">✗ Failed</div>
+            </div>
+
+            <canvas id="performanceChart" class="mt-3"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Regression -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Visual Regression
+          </div>
+          <div class="card-body">
+            <div class="test-summary">
+              <div class="test-metric passed">
+                <div>Passed</div>
+                <div class="metric-value">18</div>
+                <div class="trend-indicator trend-up">↑ 2</div>
+              </div>
+              <div class="test-metric failed">
+                <div>Failed</div>
+                <div class="metric-value">1</div>
+                <div class="trend-indicator trend-down">↓ 2</div>
+              </div>
+              <div class="test-metric">
+                <div>Total</div>
+                <div class="metric-value">19</div>
+                <div class="trend-indicator trend-neutral">→ 0</div>
+              </div>
+            </div>
+
+            <h6 class="mt-3">Recent Changes</h6>
+            <div class="a11y-issue">
+              <div><span class="a11y-impact impact-moderate">Changed</span> Dashboard - Mobile</div>
+              <div class="text-muted">Pixel diff: 2.3%</div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col-6">
+                <img src="https://via.placeholder.com/250x150?text=Before" alt="Before" class="img-fluid">
+                <div class="text-center">Before</div>
+              </div>
+              <div class="col-6">
+                <img src="https://via.placeholder.com/250x150?text=After" alt="After" class="img-fluid">
+                <div class="text-center">After</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="last-updated">
+      Last updated: <span id="lastUpdated"></span>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    // Function to format trend indicator
+    function formatTrend(trend) {
+      if (trend.direction === 'up') {
+        return `<div class="trend-indicator trend-up">↑ ${trend.value}</div>`;
+      } else if (trend.direction === 'down') {
+        return `<div class="trend-indicator trend-down">↓ ${trend.value}</div>`;
+      } else {
+        return `<div class="trend-indicator trend-neutral">→ ${trend.value}</div>`;
+      }
+    }
+
+    // Function to update dashboard with data
+    function updateDashboard() {
+      // Set last updated time
+      document.getElementById('lastUpdated').textContent = new Date(dashboardData.lastUpdated).toLocaleString();
+
+      // Update test results
+      document.querySelector('.test-metric.passed .metric-value').textContent = dashboardData.testResults.current.passed;
+      document.querySelector('.test-metric.passed .trend-indicator').outerHTML = formatTrend(dashboardData.testResults.trends.passed);
+
+      document.querySelector('.test-metric.failed .metric-value').textContent = dashboardData.testResults.current.failed;
+      document.querySelector('.test-metric.failed .trend-indicator').outerHTML = formatTrend(dashboardData.testResults.trends.failed);
+
+      document.querySelector('.test-metric.pending .metric-value').textContent = dashboardData.testResults.current.pending;
+      document.querySelector('.test-metric.pending .trend-indicator').outerHTML = formatTrend(dashboardData.testResults.trends.pending);
+
+      document.querySelector('.test-metric.duration .metric-value').textContent = Math.round(dashboardData.testResults.current.duration) + 's';
+      document.querySelector('.test-metric.duration .trend-indicator').outerHTML = formatTrend(dashboardData.testResults.trends.duration);
+
+      // Update coverage
+      const overallCoverage = Math.round(dashboardData.coverage.current.overall);
+      document.querySelector('.card-header:contains("Code Coverage") + .card-body h5').textContent = `Overall: ${overallCoverage}%`;
+      document.querySelector('.card-header:contains("Code Coverage") + .card-body .coverage-progress').style.width = `${overallCoverage}%`;
+
+      // Update server coverage
+      const serverStatements = Math.round(dashboardData.coverage.current.server.statements);
+      document.querySelector('h6:contains("Server") + div div:contains("Statements")').textContent = `Statements: ${serverStatements}%`;
+      document.querySelector('h6:contains("Server") + div .coverage-progress').style.width = `${serverStatements}%`;
+
+      const serverBranches = Math.round(dashboardData.coverage.current.server.branches);
+      document.querySelector('h6:contains("Server") + div + div div:contains("Branches")').textContent = `Branches: ${serverBranches}%`;
+      document.querySelector('h6:contains("Server") + div + div .coverage-progress').style.width = `${serverBranches}%`;
+
+      const serverFunctions = Math.round(dashboardData.coverage.current.server.functions);
+      document.querySelector('h6:contains("Server") + div + div + div div:contains("Functions")').textContent = `Functions: ${serverFunctions}%`;
+      document.querySelector('h6:contains("Server") + div + div + div .coverage-progress').style.width = `${serverFunctions}%`;
+
+      // Update client coverage
+      const clientStatements = Math.round(dashboardData.coverage.current.client.statements);
+      document.querySelector('h6:contains("Client") + div div:contains("Statements")').textContent = `Statements: ${clientStatements}%`;
+      document.querySelector('h6:contains("Client") + div .coverage-progress').style.width = `${clientStatements}%`;
+
+      const clientBranches = Math.round(dashboardData.coverage.current.client.branches);
+      document.querySelector('h6:contains("Client") + div + div div:contains("Branches")').textContent = `Branches: ${clientBranches}%`;
+      document.querySelector('h6:contains("Client") + div + div .coverage-progress').style.width = `${clientBranches}%`;
+
+      const clientFunctions = Math.round(dashboardData.coverage.current.client.functions);
+      document.querySelector('h6:contains("Client") + div + div + div div:contains("Functions")').textContent = `Functions: ${clientFunctions}%`;
+      document.querySelector('h6:contains("Client") + div + div + div .coverage-progress').style.width = `${clientFunctions}%`;
+
+      // Update security vulnerabilities
+      const securityMetrics = document.querySelectorAll('.card-header:contains("Security Vulnerabilities") + .card-body .test-metric');
+      securityMetrics[0].querySelector('.metric-value').textContent = dashboardData.security.current.metrics.critical;
+      securityMetrics[0].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.security.trends.critical);
+
+      securityMetrics[1].querySelector('.metric-value').textContent = dashboardData.security.current.metrics.high;
+      securityMetrics[1].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.security.trends.high);
+
+      securityMetrics[2].querySelector('.metric-value').textContent = dashboardData.security.current.metrics.moderate;
+      securityMetrics[2].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.security.trends.moderate);
+
+      securityMetrics[3].querySelector('.metric-value').textContent = dashboardData.security.current.metrics.low;
+      securityMetrics[3].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.security.trends.low);
+
+      // Update recent vulnerabilities
+      const securityItems = document.querySelectorAll('.card-header:contains("Security Vulnerabilities") + .card-body .security-item');
+      const vulnerabilities = dashboardData.security.current.vulnerabilities;
+
+      for (let i = 0; i < Math.min(securityItems.length, vulnerabilities.length); i++) {
+        securityItems[i].querySelector('div:first-child').textContent = vulnerabilities[i].package;
+        securityItems[i].querySelector('.security-severity').textContent = vulnerabilities[i].severity;
+        securityItems[i].querySelector('.security-severity').className = `security-severity severity-${vulnerabilities[i].severity.toLowerCase()}`;
+      }
+
+      // Update accessibility issues
+      const a11yMetrics = document.querySelectorAll('.card-header:contains("Accessibility Issues") + .card-body .test-metric');
+      a11yMetrics[0].querySelector('.metric-value').textContent = dashboardData.a11y.current.metrics.critical;
+      a11yMetrics[0].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.a11y.trends.critical);
+
+      a11yMetrics[1].querySelector('.metric-value').textContent = dashboardData.a11y.current.metrics.serious;
+      a11yMetrics[1].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.a11y.trends.serious);
+
+      a11yMetrics[2].querySelector('.metric-value').textContent = dashboardData.a11y.current.metrics.moderate;
+      a11yMetrics[2].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.a11y.trends.moderate);
+
+      a11yMetrics[3].querySelector('.metric-value').textContent = dashboardData.a11y.current.metrics.minor;
+      a11yMetrics[3].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.a11y.trends.minor);
+
+      // Update recent a11y issues
+      const a11yIssues = document.querySelectorAll('.card-header:contains("Accessibility Issues") + .card-body .a11y-issue');
+      const issues = dashboardData.a11y.current.issues;
+
+      for (let i = 0; i < Math.min(a11yIssues.length, issues.length); i++) {
+        a11yIssues[i].querySelector('div:first-child').innerHTML = `<span class="a11y-impact impact-${issues[i].impact}">${issues[i].impact}</span> ${issues[i].description}`;
+        a11yIssues[i].querySelector('.text-muted').textContent = `Element: ${issues[i].element}`;
+      }
+
+      // Update performance metrics
+      const performanceMetrics = document.querySelectorAll('.card-header:contains("Performance Metrics") + .card-body .performance-metric');
+      performanceMetrics[0].querySelector('div:last-child').textContent = Math.round(dashboardData.performance.current.metrics.avgResponseTime) + 'ms';
+      performanceMetrics[1].querySelector('div:last-child').textContent = Math.round(dashboardData.performance.current.metrics.p95ResponseTime) + 'ms';
+      performanceMetrics[2].querySelector('div:last-child').textContent = Math.round(dashboardData.performance.current.metrics.maxResponseTime) + 'ms';
+      performanceMetrics[3].querySelector('div:last-child').textContent = Math.round(dashboardData.performance.current.metrics.requestsPerSecond);
+      performanceMetrics[4].querySelector('div:last-child').textContent = dashboardData.performance.current.metrics.errorRate.toFixed(1) + '%';
+
+      // Update performance thresholds
+      const thresholds = dashboardData.performance.current.thresholds;
+      const thresholdElements = document.querySelectorAll('.card-header:contains("Performance Metrics") + .card-body h6:contains("Thresholds") + .performance-metric');
+
+      for (let i = 0; i < Math.min(thresholdElements.length, thresholds.length); i++) {
+        thresholdElements[i].querySelector('div:first-child').textContent = `${thresholds[i].name}: ${thresholds[i].threshold}`;
+        thresholdElements[i].querySelector('div:last-child').textContent = thresholds[i].passed ? '✓ Passed' : '✗ Failed';
+        thresholdElements[i].querySelector('div:last-child').className = thresholds[i].passed ? 'threshold-passed' : 'threshold-failed';
+      }
+
+      // Update visual regression
+      const visualMetrics = document.querySelectorAll('.card-header:contains("Visual Regression") + .card-body .test-metric');
+      visualMetrics[0].querySelector('.metric-value').textContent = dashboardData.visual.current.metrics.passed;
+      visualMetrics[0].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.visual.trends.passed);
+
+      visualMetrics[1].querySelector('.metric-value').textContent = dashboardData.visual.current.metrics.failed;
+      visualMetrics[1].querySelector('.trend-indicator').outerHTML = formatTrend(dashboardData.visual.trends.failed);
+
+      visualMetrics[2].querySelector('.metric-value').textContent = dashboardData.visual.current.metrics.total;
+
+      // Update recent visual changes
+      const visualChanges = document.querySelectorAll('.card-header:contains("Visual Regression") + .card-body .a11y-issue');
+      const changes = dashboardData.visual.current.changes;
+
+      for (let i = 0; i < Math.min(visualChanges.length, changes.length); i++) {
+        visualChanges[i].querySelector('div:first-child').innerHTML = `<span class="a11y-impact impact-moderate">Changed</span> ${changes[i].name}`;
+        visualChanges[i].querySelector('.text-muted').textContent = `Pixel diff: ${changes[i].diffPercentage.toFixed(1)}%`;
+      }
+    }
+
+    // Test Results Chart
+    const testResultsCtx = document.getElementById('testResultsChart').getContext('2d');
+    const testResultsChart = new Chart(testResultsCtx, {
+      type: 'line',
+      data: {
+        labels: dashboardData.testResults.history.map(entry => new Date(entry.timestamp).toLocaleDateString()),
+        datasets: [
+          {
+            label: 'Passed',
+            data: dashboardData.testResults.history.map(entry => entry.passed),
+            borderColor: '#28a745',
+            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Failed',
+            data: dashboardData.testResults.history.map(entry => entry.failed),
+            borderColor: '#dc3545',
+            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Pending',
+            data: dashboardData.testResults.history.map(entry => entry.pending),
+            borderColor: '#ffc107',
+            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Test Results Trend'
+          }
+        }
+      }
+    });
+
+    // Security Chart
+    const securityCtx = document.getElementById('securityChart').getContext('2d');
+    const securityChart = new Chart(securityCtx, {
+      type: 'line',
+      data: {
+        labels: dashboardData.security.history.map(entry => new Date(entry.timestamp).toLocaleDateString()),
+        datasets: [
+          {
+            label: 'Critical',
+            data: dashboardData.security.history.map(entry => entry.metrics.critical),
+            borderColor: '#dc3545',
+            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'High',
+            data: dashboardData.security.history.map(entry => entry.metrics.high),
+            borderColor: '#fd7e14',
+            backgroundColor: 'rgba(253, 126, 20, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Moderate',
+            data: dashboardData.security.history.map(entry => entry.metrics.moderate),
+            borderColor: '#ffc107',
+            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Low',
+            data: dashboardData.security.history.map(entry => entry.metrics.low),
+            borderColor: '#6c757d',
+            backgroundColor: 'rgba(108, 117, 125, 0.1)',
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Security Vulnerabilities Trend'
+          }
+        }
+      }
+    });
+
+    // Accessibility Chart
+    const a11yCtx = document.getElementById('a11yChart').getContext('2d');
+    const a11yChart = new Chart(a11yCtx, {
+      type: 'line',
+      data: {
+        labels: dashboardData.a11y.history.map(entry => new Date(entry.timestamp).toLocaleDateString()),
+        datasets: [
+          {
+            label: 'Critical',
+            data: dashboardData.a11y.history.map(entry => entry.metrics.critical),
+            borderColor: '#dc3545',
+            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Serious',
+            data: dashboardData.a11y.history.map(entry => entry.metrics.serious),
+            borderColor: '#fd7e14',
+            backgroundColor: 'rgba(253, 126, 20, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Moderate',
+            data: dashboardData.a11y.history.map(entry => entry.metrics.moderate),
+            borderColor: '#ffc107',
+            backgroundColor: 'rgba(255, 193, 7, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: 'Minor',
+            data: dashboardData.a11y.history.map(entry => entry.metrics.minor),
+            borderColor: '#6c757d',
+            backgroundColor: 'rgba(108, 117, 125, 0.1)',
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Accessibility Issues Trend'
+          }
+        }
+      }
+    });
+
+    // Performance Chart
+    const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(performanceCtx, {
+      type: 'line',
+      data: {
+        labels: dashboardData.performance.history.map(entry => new Date(entry.timestamp).toLocaleDateString()),
+        datasets: [
+          {
+            label: 'Avg Response Time (ms)',
+            data: dashboardData.performance.history.map(entry => entry.metrics.avgResponseTime),
+            borderColor: '#007bff',
+            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+            tension: 0.4
+          },
+          {
+            label: '95th Percentile (ms)',
+            data: dashboardData.performance.history.map(entry => entry.metrics.p95ResponseTime),
+            borderColor: '#6f42c1',
+            backgroundColor: 'rgba(111, 66, 193, 0.1)',
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Performance Metrics Trend'
+          }
+        }
+      }
+    });
+
+    // Update the dashboard with data
+    updateDashboard();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

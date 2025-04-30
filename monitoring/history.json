@@ -1,0 +1,404 @@
+{
+  "testResults": [
+    {
+      "timestamp": "2025-04-30T08:17:34.979Z",
+      "passed": 0,
+      "failed": 0,
+      "pending": 0,
+      "duration": 0
+    },
+    {
+      "timestamp": "2025-04-30T08:18:24.962Z",
+      "passed": 0,
+      "failed": 0,
+      "pending": 0,
+      "duration": 0
+    },
+    {
+      "timestamp": "2025-04-30T08:30:37.128Z",
+      "passed": 174,
+      "failed": 105,
+      "pending": 0,
+      "duration": 0
+    },
+    {
+      "timestamp": "2025-04-30T08:31:25.270Z",
+      "passed": 174,
+      "failed": 105,
+      "pending": 0,
+      "duration": 0
+    }
+  ],
+  "coverage": [
+    {
+      "timestamp": "2025-04-30T08:17:35.004Z",
+      "overall": 0,
+      "server": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      },
+      "client": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      }
+    },
+    {
+      "timestamp": "2025-04-30T08:18:24.987Z",
+      "overall": 0,
+      "server": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      },
+      "client": {
+        "statements": 0,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0
+      }
+    },
+    {
+      "timestamp": "2025-04-30T08:30:37.131Z",
+      "overall": 81.1125,
+      "server": {
+        "statements": 81.25,
+        "branches": 75,
+        "functions": 83.33,
+        "lines": 80
+      },
+      "client": {
+        "statements": 81.82,
+        "branches": 75,
+        "functions": 87.5,
+        "lines": 85
+      }
+    },
+    {
+      "timestamp": "2025-04-30T08:31:25.273Z",
+      "overall": 81.1125,
+      "server": {
+        "statements": 81.25,
+        "branches": 75,
+        "functions": 83.33,
+        "lines": 80
+      },
+      "client": {
+        "statements": 81.82,
+        "branches": 75,
+        "functions": 87.5,
+        "lines": 85
+      }
+    }
+  ],
+  "security": [
+    {
+      "timestamp": "2025-04-30T08:17:35.108Z",
+      "metrics": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0,
+        "info": 0
+      },
+      "vulnerabilities": []
+    },
+    {
+      "timestamp": "2025-04-30T08:18:25.097Z",
+      "metrics": {
+        "critical": 0,
+        "high": 0,
+        "moderate": 0,
+        "low": 0,
+        "info": 0
+      },
+      "vulnerabilities": []
+    },
+    {
+      "timestamp": "2025-04-30T08:30:37.132Z",
+      "metrics": {
+        "critical": 0,
+        "high": 2,
+        "moderate": 5,
+        "low": 8,
+        "info": 0
+      },
+      "vulnerabilities": [
+        {
+          "package": "lodash",
+          "severity": "high",
+          "via": "Prototype Pollution",
+          "fixAvailable": true
+        },
+        {
+          "package": "axios",
+          "severity": "moderate",
+          "via": "Server-Side Request Forgery",
+          "fixAvailable": true
+        },
+        {
+          "package": "express",
+          "severity": "low",
+          "via": "Denial of Service",
+          "fixAvailable": false
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-04-30T08:31:25.274Z",
+      "metrics": {
+        "critical": 0,
+        "high": 2,
+        "moderate": 5,
+        "low": 8,
+        "info": 0
+      },
+      "vulnerabilities": [
+        {
+          "package": "lodash",
+          "severity": "high",
+          "via": "Prototype Pollution",
+          "fixAvailable": true
+        },
+        {
+          "package": "axios",
+          "severity": "moderate",
+          "via": "Server-Side Request Forgery",
+          "fixAvailable": true
+        },
+        {
+          "package": "express",
+          "severity": "low",
+          "via": "Denial of Service",
+          "fixAvailable": false
+        }
+      ]
+    }
+  ],
+  "a11y": [
+    {
+      "timestamp": "2025-04-30T08:17:35.108Z",
+      "metrics": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0
+      },
+      "issues": []
+    },
+    {
+      "timestamp": "2025-04-30T08:18:25.098Z",
+      "metrics": {
+        "critical": 0,
+        "serious": 0,
+        "moderate": 0,
+        "minor": 0
+      },
+      "issues": []
+    },
+    {
+      "timestamp": "2025-04-30T08:30:37.133Z",
+      "metrics": {
+        "critical": 0,
+        "serious": 2,
+        "moderate": 1,
+        "minor": 0
+      },
+      "issues": [
+        {
+          "impact": "serious",
+          "description": "Images must have alternate text",
+          "help": "Provide alternative text for images",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/image-alt",
+          "nodes": 2,
+          "element": "<img src=\"/images/profile.jpg\">"
+        },
+        {
+          "impact": "moderate",
+          "description": "Elements must have sufficient color contrast",
+          "help": "Ensure sufficient color contrast between foreground and background",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/color-contrast",
+          "nodes": 1,
+          "element": "<span class=\"badge-light\">Beginner</span>"
+        },
+        {
+          "impact": "serious",
+          "description": "Form elements must have labels",
+          "help": "Provide a label for form elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/label",
+          "nodes": 1,
+          "element": "<input type=\"text\" name=\"search\">"
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-04-30T08:31:25.275Z",
+      "metrics": {
+        "critical": 0,
+        "serious": 2,
+        "moderate": 1,
+        "minor": 0
+      },
+      "issues": [
+        {
+          "impact": "serious",
+          "description": "Images must have alternate text",
+          "help": "Provide alternative text for images",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/image-alt",
+          "nodes": 2,
+          "element": "<img src=\"/images/profile.jpg\">"
+        },
+        {
+          "impact": "moderate",
+          "description": "Elements must have sufficient color contrast",
+          "help": "Ensure sufficient color contrast between foreground and background",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/color-contrast",
+          "nodes": 1,
+          "element": "<span class=\"badge-light\">Beginner</span>"
+        },
+        {
+          "impact": "serious",
+          "description": "Form elements must have labels",
+          "help": "Provide a label for form elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.4/label",
+          "nodes": 1,
+          "element": "<input type=\"text\" name=\"search\">"
+        }
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "timestamp": "2025-04-30T08:17:35.110Z",
+      "metrics": {
+        "avgResponseTime": 0,
+        "p95ResponseTime": 0,
+        "maxResponseTime": 0,
+        "requestsPerSecond": 0,
+        "errorRate": 0
+      },
+      "thresholds": []
+    },
+    {
+      "timestamp": "2025-04-30T08:18:25.098Z",
+      "metrics": {
+        "avgResponseTime": 0,
+        "p95ResponseTime": 0,
+        "maxResponseTime": 0,
+        "requestsPerSecond": 0,
+        "errorRate": 0
+      },
+      "thresholds": []
+    },
+    {
+      "timestamp": "2025-04-30T08:30:37.134Z",
+      "metrics": {
+        "avgResponseTime": 245,
+        "p95ResponseTime": 450,
+        "maxResponseTime": 1250,
+        "requestsPerSecond": 120,
+        "errorRate": 0.5
+      },
+      "thresholds": [
+        {
+          "name": "http_req_duration",
+          "threshold": "p(95) < 500ms",
+          "passed": true
+        },
+        {
+          "name": "http_req_failed",
+          "threshold": "rate < 1%",
+          "passed": true
+        },
+        {
+          "name": "auth_duration",
+          "threshold": "p(95) < 300ms",
+          "passed": false
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-04-30T08:31:25.276Z",
+      "metrics": {
+        "avgResponseTime": 245,
+        "p95ResponseTime": 450,
+        "maxResponseTime": 1250,
+        "requestsPerSecond": 120,
+        "errorRate": 0.5
+      },
+      "thresholds": [
+        {
+          "name": "http_req_duration",
+          "threshold": "p(95) < 500ms",
+          "passed": true
+        },
+        {
+          "name": "http_req_failed",
+          "threshold": "rate < 1%",
+          "passed": true
+        },
+        {
+          "name": "auth_duration",
+          "threshold": "p(95) < 300ms",
+          "passed": false
+        }
+      ]
+    }
+  ],
+  "visual": [
+    {
+      "timestamp": "2025-04-30T08:17:35.110Z",
+      "metrics": {
+        "passed": 0,
+        "failed": 0,
+        "total": 0
+      },
+      "changes": []
+    },
+    {
+      "timestamp": "2025-04-30T08:18:25.099Z",
+      "metrics": {
+        "passed": 0,
+        "failed": 0,
+        "total": 0
+      },
+      "changes": []
+    },
+    {
+      "timestamp": "2025-04-30T08:30:37.136Z",
+      "metrics": {
+        "passed": 5,
+        "failed": 1,
+        "total": 6
+      },
+      "changes": [
+        {
+          "name": "Dashboard - Mobile",
+          "diffPercentage": 2.3,
+          "beforeUrl": "/screenshots/before/dashboard-mobile.png",
+          "afterUrl": "/screenshots/after/dashboard-mobile.png"
+        }
+      ]
+    },
+    {
+      "timestamp": "2025-04-30T08:31:25.277Z",
+      "metrics": {
+        "passed": 5,
+        "failed": 1,
+        "total": 6
+      },
+      "changes": [
+        {
+          "name": "Dashboard - Mobile",
+          "diffPercentage": 2.3,
+          "beforeUrl": "/screenshots/before/dashboard-mobile.png",
+          "afterUrl": "/screenshots/after/dashboard-mobile.png"
+        }
+      ]
+    }
+  ]
+}

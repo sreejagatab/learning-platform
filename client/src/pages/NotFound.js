@@ -34,15 +34,15 @@ const NotFound = () => {
           <Typography variant="h1" color="primary" sx={{ mb: 2, fontSize: '6rem' }}>
             404
           </Typography>
-          
+
           <Typography variant="h4" gutterBottom>
             Page Not Found
           </Typography>
-          
+
           <Typography variant="body1" color="text.secondary" paragraph>
-            The page you are looking for doesn't exist or has been moved.
+            The page you are looking for doesn&apos;t exist or has been moved.
           </Typography>
-          
+
           <Button
             variant="contained"
             color="primary"

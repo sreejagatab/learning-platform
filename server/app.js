@@ -7,6 +7,7 @@ const config = require('config');
 const path = require('path');
 const logger = require('./utils/logger');
 const errorMiddleware = require('./middleware/error.middleware');
+const jsonParserMiddleware = require('./middleware/json-parser.middleware');
 const { cacheMiddleware } = require('./middleware/cache.middleware');
 
 // Create Express app
@@ -16,22 +17,14 @@ const app = express();
 app.use(helmet()); // Security headers
 app.use(compression()); // Compress responses
 
-// Capture raw request body for debugging JSON parsing errors
-app.use((req, res, next) => {
-  let rawBody = '';
-  req.on('data', chunk => {
-    rawBody += chunk.toString();
-  });
-  req.on('end', () => {
-    req.rawBody = rawBody;
-    next();
-  });
-});
+// Apply enhanced JSON parser middleware
+app.use(jsonParserMiddleware);
 
 // Parse JSON bodies with improved error handling
 app.use(express.json({
   limit: '10mb',
   verify: (req, res, buf) => {
+    // This will only run if JSON parsing was successful
     req.rawBody = buf.toString();
   }
 }));
@@ -70,6 +63,7 @@ const userCacheConfig = {
 // API routes with cache middleware where appropriate
 app.use('/api/auth', require('./routes/auth.routes')); // No cache for auth routes
 app.use('/api/learning', cacheMiddleware(contentCacheConfig), require('./routes/learning.routes'));
+app.use('/api/learning-paths', require('./routes/learning-path.routes')); // Advanced learning paths
 app.use('/api/users', cacheMiddleware(userCacheConfig), require('./routes/user.routes'));
 app.use('/api/history', cacheMiddleware(contentCacheConfig), require('./routes/history.routes'));
 app.use('/api/gamification', require('./routes/gamification.routes')); // No cache for gamification routes

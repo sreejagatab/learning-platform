@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "name": "Dashboard - Desktop",
+      "status": "passed",
+      "diffPercentage": 0
+    },
+    {
+      "name": "Dashboard - Tablet",
+      "status": "passed",
+      "diffPercentage": 0
+    },
+    {
+      "name": "Dashboard - Mobile",
+      "status": "failed",
+      "diffPercentage": 2.3,
+      "beforeUrl": "/screenshots/before/dashboard-mobile.png",
+      "afterUrl": "/screenshots/after/dashboard-mobile.png"
+    },
+    {
+      "name": "Learning Path - Desktop",
+      "status": "passed",
+      "diffPercentage": 0
+    },
+    {
+      "name": "Learning Path - Tablet",
+      "status": "passed",
+      "diffPercentage": 0
+    },
+    {
+      "name": "Learning Path - Mobile",
+      "status": "passed",
+      "diffPercentage": 0
+    }
+  ]
+}

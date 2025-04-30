@@ -8,7 +8,7 @@ module.exports = defineConfig({
     },
   },
   env: {
-    apiUrl: 'http://localhost:5000/api',
+    apiUrl: 'http://localhost:5001/api',
   },
   viewportWidth: 1280,
   viewportHeight: 720,

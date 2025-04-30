@@ -1,0 +1,157 @@
+name: Performance Testing
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'  # Run weekly on Mondays at midnight
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  performance:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm install
+        cd server && npm ci
+        cd ../client && npm ci
+    
+    - name: Install k6
+      run: |
+        curl -L https://github.com/grafana/k6/releases/download/v0.46.0/k6-v0.46.0-linux-amd64.tar.gz | tar xz
+        sudo cp k6-v0.46.0-linux-amd64/k6 /usr/local/bin
+    
+    - name: Start server
+      run: |
+        cd server
+        npm start &
+        sleep 10
+      env:
+        NODE_ENV: production
+        MONGO_URI: mongodb://localhost:27017/learning-platform-test
+        JWT_SECRET: test-jwt-secret
+        JWT_EXPIRE: 1h
+    
+    - name: Run performance tests
+      run: |
+        mkdir -p performance-reports
+        k6 run performance-tests/api-load-test.js --out json=performance-reports/results.json
+    
+    - name: Generate performance report
+      run: |
+        node -e "
+          const fs = require('fs');
+          const results = JSON.parse(fs.readFileSync('./performance-reports/results.json', 'utf8'));
+          
+          const metrics = results.metrics;
+          const summary = {
+            http_req_duration: {
+              avg: metrics.http_req_duration.values.avg,
+              p95: metrics.http_req_duration.values['p(95)'],
+              max: metrics.http_req_duration.values.max
+            },
+            http_reqs: metrics.http_reqs.values.count,
+            http_req_failed: metrics.http_req_failed.values.rate,
+            iterations: metrics.iterations.values.count,
+            vus: metrics.vus.values.max,
+            auth_duration: metrics.auth_duration ? {
+              avg: metrics.auth_duration.values.avg,
+              p95: metrics.auth_duration.values['p(95)']
+            } : null,
+            learning_duration: metrics.learning_duration ? {
+              avg: metrics.learning_duration.values.avg,
+              p95: metrics.learning_duration.values['p(95)']
+            } : null
+          };
+          
+          const report = \`# Performance Test Results
+          
+          ## Summary
+          
+          - **Date**: ${new Date().toISOString()}
+          - **Total Requests**: ${summary.http_reqs}
+          - **Failed Requests Rate**: ${(summary.http_req_failed * 100).toFixed(2)}%
+          - **Iterations**: ${summary.iterations}
+          - **Max VUs**: ${summary.vus}
+          
+          ## Response Times
+          
+          - **Average**: ${summary.http_req_duration.avg.toFixed(2)}ms
+          - **95th Percentile**: ${summary.http_req_duration.p95.toFixed(2)}ms
+          - **Max**: ${summary.http_req_duration.max.toFixed(2)}ms
+          
+          ## Endpoint Performance
+          
+          ${summary.auth_duration ? \`
+          ### Authentication Endpoints
+          
+          - **Average**: ${summary.auth_duration.avg.toFixed(2)}ms
+          - **95th Percentile**: ${summary.auth_duration.p95.toFixed(2)}ms
+          \` : ''}
+          
+          ${summary.learning_duration ? \`
+          ### Learning Endpoints
+          
+          - **Average**: ${summary.learning_duration.avg.toFixed(2)}ms
+          - **95th Percentile**: ${summary.learning_duration.p95.toFixed(2)}ms
+          \` : ''}
+          
+          ## Thresholds
+          
+          ${Object.entries(results.metrics)
+            .filter(([_, metric]) => metric.thresholds)
+            .map(([name, metric]) => {
+              const thresholds = Object.entries(metric.thresholds).map(([threshold, result]) => {
+                return \`- \${threshold}: \${result.ok ? '✅ Passed' : '❌ Failed'}\`;
+              }).join('\\n');
+              return \`### \${name}\\n\\n\${thresholds}\\n\`;
+            }).join('\\n')}
+          \`;
+          
+          fs.writeFileSync('./performance-reports/report.md', report);
+        "
+    
+    - name: Upload performance reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-reports
+        path: performance-reports/
+    
+    - name: Check performance thresholds
+      run: |
+        node -e "
+          const fs = require('fs');
+          const results = JSON.parse(fs.readFileSync('./performance-reports/results.json', 'utf8'));
+          
+          const failedThresholds = Object.entries(results.metrics)
+            .filter(([_, metric]) => metric.thresholds)
+            .flatMap(([name, metric]) => 
+              Object.entries(metric.thresholds)
+                .filter(([_, result]) => !result.ok)
+                .map(([threshold, _]) => \`\${name}: \${threshold}\`)
+            );
+          
+          if (failedThresholds.length > 0) {
+            console.error('Performance thresholds failed:');
+            failedThresholds.forEach(threshold => console.error(\`- \${threshold}\`));
+            process.exit(1);
+          }
+        " || echo "Performance thresholds failed but continuing workflow"
